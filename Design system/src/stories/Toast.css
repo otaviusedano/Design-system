@@ -1,0 +1,92 @@
+.toast-root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--surface-primary);
+  background: color-mix(
+    in srgb,
+    var(--surface-secondary),
+    var(--surface-primary) 60%
+  );
+  box-shadow: 0 12px 36px color-mix(
+      in srgb,
+      var(--border-primary),
+      transparent 75%
+    );
+  width: 100%;
+  max-width: 540px;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  position: relative;
+}
+
+.toast-root::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 4px;
+  border-radius: 0 0 18px 18px;
+  background: var(--border-positive);
+}
+
+.toast-error::after {
+  background: var(--border-negative);
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.toast-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.toast-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast-action {
+  border: none;
+  background: transparent;
+  color: var(--text-highlight);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toast-dismiss {
+  border: none;
+  background: transparent;
+  color: var(--icon-secondary);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.toast-dismiss:hover {
+  background: var(--surface-primary);
+  color: var(--text-primary);
+}
+
+.toast-dismiss-icon {
+  display: inline-flex;
+}

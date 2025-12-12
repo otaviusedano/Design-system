@@ -1,0 +1,109 @@
+ .storybook-tag {
+   display: inline-flex;
+   align-items: center;
+   gap: 8px;
+   border-radius: 999px;
+   font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+   font-weight: 700;
+   line-height: 1.2;
+   border: 1px solid transparent;
+   padding: 8px 14px;
+   color: var(--tag-text-purple);
+   background: var(--tag-surface-purple);
+   border-color: var(--tag-surface-purple);
+   box-shadow: 0 2px 4px color-mix(
+       in srgb,
+       var(--text-primary),
+       transparent 90%
+     );
+   width: fit-content;
+ }
+
+ .storybook-tag--lg {
+   padding: 10px 16px;
+   font-size: 14px;
+ }
+
+ .storybook-tag--md {
+   padding: 8px 14px;
+   font-size: 13px;
+ }
+
+ .storybook-tag--purple {
+   color: var(--tag-text-purple);
+   background: var(--tag-surface-purple);
+   border-color: var(--tag-surface-purple);
+ }
+
+ .storybook-tag--sky {
+  color: var(--tag-text-sky-blue);
+  background: var(--tag-surface-sky-blue);
+  border-color: var(--tag-surface-sky-blue);
+ }
+
+ .storybook-tag--water {
+   color: var(--tag-text-water-green);
+   background: var(--tag-surface-water-green);
+   border-color: var(--tag-surface-water-green);
+ }
+
+ .storybook-tag--gray {
+   color: var(--tag-text-gray);
+   background: var(--tag-surface-gray);
+   border-color: var(--tag-surface-gray);
+ }
+
+ .storybook-tag--red {
+   color: var(--tag-text-red);
+   background: var(--tag-surface-red);
+   border-color: var(--tag-surface-red);
+ }
+
+ .storybook-tag__label {
+   white-space: nowrap;
+ }
+
+ .storybook-tag__close {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   width: 18px;
+   height: 18px;
+   border-radius: 50%;
+   border: none;
+   background: color-mix(in srgb, currentColor, transparent 85%);
+   color: currentColor;
+   cursor: pointer;
+   padding: 0;
+ }
+
+ .storybook-tag--gray .storybook-tag__close {
+   background: color-mix(
+     in srgb,
+     var(--text-primary),
+     transparent 85%
+   );
+ }
+
+ .storybook-tag__close:hover {
+   background: color-mix(in srgb, currentColor, transparent 70%);
+ }
+
+ .storybook-tag--gray .storybook-tag__close:hover {
+   background: color-mix(
+     in srgb,
+     var(--text-primary),
+     transparent 70%
+   );
+ }
+
+ .storybook-tag__close-icon {
+   width: 12px;
+   height: 12px;
+ }
+
+ .storybook-tag--readonly {
+   box-shadow: none;
+   opacity: 0.9;
+ }
+

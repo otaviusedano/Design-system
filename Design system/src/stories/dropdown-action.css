@@ -1,0 +1,92 @@
+.storybook-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storybook-dropdown__trigger {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border-focus);
+  background: transparent;
+  color: var(--text-highlight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 18px color-mix(
+      in srgb,
+      var(--text-primary),
+      transparent 82%
+    );
+  transition: box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.storybook-dropdown__trigger:hover {
+  filter: brightness(0.96);
+}
+
+.storybook-dropdown__trigger:active {
+  filter: brightness(0.9);
+}
+
+.storybook-dropdown__trigger.is-open {
+  background: var(--surface-pressed);
+  color: var(--text-invert);
+}
+
+.storybook-dropdown__trigger.is-focused {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--border-focus), transparent 65%);
+}
+
+.storybook-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 200px;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px color-mix(
+      in srgb,
+      var(--text-primary),
+      transparent 84%
+    );
+  overflow: hidden;
+  padding: 8px 6px;
+  z-index: 20;
+}
+
+.storybook-dropdown__item {
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-highlight);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.12s ease, color 0.12s ease;
+  border: 1px solid transparent;
+}
+
+.storybook-dropdown__item:hover {
+  background: var(--surface-secondary);
+  border-color: var(--border-focus);
+}
+
+.storybook-dropdown__item.is-danger {
+  color: var(--text-negative);
+}
+
+.storybook-dropdown__item.is-danger:hover {
+  background: var(--surface-secondary);
+  border-color: var(--border-negative);
+}

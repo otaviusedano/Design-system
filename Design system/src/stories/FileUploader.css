@@ -1,0 +1,247 @@
+.fu-root {
+  width: 100%;
+  max-width: 560px;
+  display: grid;
+  gap: 16px;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  color: var(--text-primary);
+}
+
+.fu-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 32px;
+  border-radius: 18px;
+  border: 2px dashed var(--border-secondary);
+  background: var(--surface-primary);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+  cursor: pointer;
+}
+
+.fu-root[data-state="disabled"] .fu-dropzone {
+  cursor: not-allowed;
+}
+
+.fu-dropzone:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--border-focus), transparent 80%);
+}
+
+.fu-icon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  max-width: 420px;
+}
+
+.fu-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.fu-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.fu-button {
+  margin-top: 4px;
+  height: 36px;
+  padding: 0 24px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(
+    90deg,
+    var(--surface-pressed) 0%,
+    var(--surface-hover) 100%
+  );
+  color: var(--text-invert);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.fu-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--border-focus), transparent 65%);
+}
+
+.fu-button:active {
+  transform: translateY(1px);
+}
+
+.fu-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.fu-helper {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.fu-helper.fu-error {
+  color: var(--text-negative);
+}
+
+/* States */
+
+.fu-dropzone.fu-focus,
+.fu-dropzone.fu-dragover {
+  border-color: var(--border-focus);
+  background: var(--surface-secondary);
+  box-shadow: 0 8px 32px color-mix(
+      in srgb,
+      var(--border-focus),
+      transparent 85%
+    );
+}
+
+.fu-dropzone.fu-uploaded {
+  border-color: var(--border-positive);
+  background: color-mix(
+      in srgb,
+      var(--surface-primary),
+      var(--text-positive) 12%
+    );
+}
+
+.fu-dropzone.fu-error {
+  border-color: var(--border-negative);
+  background: color-mix(
+      in srgb,
+      var(--surface-primary),
+      var(--text-negative) 12%
+    );
+}
+
+.fu-dropzone.fu-disabled {
+  border-color: var(--border-secondary);
+  background: var(--surface-disabled);
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.fu-dropzone.fu-disabled .fu-description {
+  color: var(--text-secondary);
+}
+
+.fu-dropzone.fu-disabled .fu-button {
+  background: var(--surface-disabled);
+  color: var(--text-secondary);
+}
+
+/* File list */
+
+.fu-filelist {
+  display: grid;
+  gap: 12px;
+}
+
+.fu-file {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border-secondary);
+  background: var(--surface-secondary);
+  gap: 12px;
+}
+
+.fu-file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fu-file-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fu-filename {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.fu-filesize {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.fu-remove {
+  height: 34px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border-primary);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.fu-remove:hover {
+  border-color: var(--border-focus);
+}
+
+.fu-remove:focus-visible {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--border-focus), transparent 70%);
+}
+
+.fu-input {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .fu-dropzone {
+    padding: 24px 20px;
+  }
+
+  .fu-file {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .fu-remove {
+    width: 100%;
+    text-align: center;
+  }
+}

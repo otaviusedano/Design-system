@@ -1,0 +1,84 @@
+.sw-root {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.sw-root.sw-disabled {
+  cursor: not-allowed;
+  color: var(--text-secondary);
+}
+
+.sw-label {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.sw-control {
+  position: relative;
+  width: 38px;
+  height: 20px;
+}
+
+.sw-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: inherit;
+}
+
+.sw-slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border-primary);
+  background: var(--surface-secondary);
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.sw-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--surface-disabled);
+  border: 1px solid var(--border-secondary);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.sw-root.sw-checked .sw-slider {
+  border-color: var(--border-focus);
+  background: var(--surface-highlight);
+}
+
+.sw-root.sw-checked .sw-thumb {
+  transform: translateX(18px);
+  background: var(--surface-primary);
+  border-color: var(--surface-primary);
+}
+
+.sw-root.sw-disabled .sw-slider {
+  border-color: var(--border-secondary);
+  background: var(--surface-disabled);
+}
+
+.sw-root.sw-disabled .sw-thumb {
+  background: var(--surface-secondary);
+  border-color: var(--border-secondary);
+}
+
+.sw-input:focus-visible + .sw-slider {
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--border-focus), transparent 55%);
+}
