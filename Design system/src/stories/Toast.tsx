@@ -7,41 +7,34 @@ export type ToastProps = {
   id?: string;
   state?: ToastState;
   title: string;
-  description?: string;
   actionLabel?: string;
   onAction?: () => void;
   dismissLabel?: string;
   onDismiss?: () => void;
-  icon?: ReactNode;
 };
 
 export function Toast({
   id,
   state = "success",
   title,
-  description,
   actionLabel,
   onAction,
   dismissLabel = "Fechar",
   onDismiss,
-  icon,
 }: ToastProps) {
-  const showAction = actionLabel && onAction;
+  const showAction = Boolean(actionLabel);
+  const showDismiss = Boolean(onDismiss);
 
   return (
     <div
       id={id}
       className={["toast-root", `toast-${state}`].join(" ")}
-      role="status"
-      aria-live="polite"
+      role={state === "error" ? "alert" : "status"}
+      aria-live={state === "error" ? "assertive" : "polite"}
+      aria-atomic="true"
     >
-      {icon ? <span className="toast-icon">{icon}</span> : null}
-
       <div className="toast-content">
         <strong className="toast-title">{title}</strong>
-        {description ? (
-          <span className="toast-description">{description}</span>
-        ) : null}
       </div>
 
       <div className="toast-actions">
@@ -51,12 +44,13 @@ export function Toast({
             className="toast-action"
             onClick={onAction}
             aria-label={actionLabel}
+            disabled={!onAction}
           >
             {actionLabel}
           </button>
         ) : null}
 
-        {onDismiss ? (
+        {showDismiss ? (
           <button
             type="button"
             className="toast-dismiss"

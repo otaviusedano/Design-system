@@ -1,0 +1,160 @@
+.stepper-shell {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  color: var(--text-primary);
+}
+
+.stepper-nav {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #1a1a6b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.stepper-nav svg {
+  color: var(--icon-highlight);
+}
+
+.stepper-nav:hover:not(.stepper-nav--disabled) {
+  background: #f1f5f9;
+  border-color: #1a1a6b;
+}
+
+.stepper-nav--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.stepper-root {
+  --step-size: 36px;
+  --step-gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--step-gap);
+  width: 100%;
+  overflow: visible;
+}
+
+.stepper-step {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+.stepper-marker {
+  width: var(--step-size);
+  height: var(--step-size);
+  border-radius: 999px;
+  border: 2px solid var(--border-secondary);
+  background: var(--surface-primary);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.stepper-index {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.stepper-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+
+.stepper-connector {
+  position: absolute;
+  height: 2px;
+  width: calc(100% + var(--step-gap) - var(--step-size));
+  top: calc(var(--step-size) / 2);
+  left: calc(50% + var(--step-size) / 2);
+  background: var(--border-secondary);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.stepper-completed .stepper-marker {
+  border-color: var(--text-positive);
+  background: var(--text-positive);
+  color: var(--text-invert);
+}
+
+.stepper-current .stepper-marker {
+  border-color: var(--border-focus);
+  color: var(--text-highlight);
+  background: var(--surface-primary);
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--border-focus), transparent 80%);
+}
+
+.stepper-error .stepper-marker {
+  border-color: var(--border-negative);
+  color: var(--text-negative);
+  background: color-mix(in srgb, var(--text-negative), transparent 92%);
+}
+
+.stepper-upcoming .stepper-label {
+  color: var(--text-secondary);
+}
+
+.stepper-completed .stepper-connector {
+  background: var(--text-positive);
+}
+
+.stepper-error .stepper-connector {
+  background: var(--border-negative);
+}
+
+.stepper-sm {
+  --step-size: 28px;
+  --step-gap: 16px;
+}
+
+.stepper-sm .stepper-label {
+  font-size: 12px;
+}
+
+.stepper-lg {
+  --step-size: 44px;
+  --step-gap: 28px;
+}
+
+.stepper-lg .stepper-label {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .stepper-nav {
+    width: 36px;
+    height: 36px;
+  }
+}

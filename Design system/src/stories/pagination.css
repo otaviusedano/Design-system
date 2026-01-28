@@ -1,0 +1,203 @@
+.storybook-pagination__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.storybook-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.storybook-pagination__list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.storybook-pagination__button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.storybook-pagination__button:hover:not(:disabled):not(.storybook-pagination__button--active) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #1a1a6b;
+}
+
+.storybook-pagination__button:focus {
+  outline: 2px solid #1a1a6b;
+  outline-offset: 2px;
+}
+
+.storybook-pagination__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.storybook-pagination__button--active {
+  background: #1a1a6b;
+  border-color: #1a1a6b;
+  color: #ffffff;
+  font-weight: 500;
+  cursor: default;
+}
+
+.storybook-pagination__button--active:hover {
+  background: #1a1a6b;
+  border-color: #1a1a6b;
+  color: #ffffff;
+}
+
+.storybook-pagination__button--prev,
+.storybook-pagination__button--next {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storybook-pagination__ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  color: #94a3b8;
+  font-size: 14px;
+  user-select: none;
+}
+
+.storybook-pagination__items-per-page {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.storybook-pagination__items-per-page-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.storybook-pagination__items-per-page-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 0 12px;
+  min-height: 32px;
+  min-width: 80px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+}
+
+.storybook-pagination__items-per-page-select:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.storybook-pagination__items-per-page-select.is-open {
+  border-color: #1a1a6b;
+  box-shadow: 0 0 0 2px rgba(26, 26, 107, 0.1);
+}
+
+.storybook-pagination__items-per-page-value {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0f172a;
+  padding: 6px 0;
+  padding-right: 24px;
+}
+
+.storybook-pagination__items-per-page-arrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  pointer-events: none;
+  transition: transform 0.15s ease;
+}
+
+.storybook-pagination__items-per-page-select.is-open .storybook-pagination__items-per-page-arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.storybook-pagination__items-per-page-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 1000;
+  min-width: 100%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  list-style: none;
+  padding: 4px;
+  margin: 0;
+}
+
+.storybook-pagination__items-per-page-option {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0f172a;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.storybook-pagination__items-per-page-option:hover:not(.is-active) {
+  background: transparent;
+  border: 1px solid #1a1a6b;
+  color: #1a1a6b;
+}
+
+.storybook-pagination__items-per-page-option.is-active {
+  background: #1a1a6b;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.storybook-pagination__items-per-page-option.is-active:hover {
+  background: #1a1a6b;
+  color: #ffffff;
+}

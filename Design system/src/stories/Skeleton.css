@@ -1,0 +1,55 @@
+.sk-root {
+  --sk-gap: 10px;
+  --sk-bg: var(--surface-secondary);
+  --sk-shine: color-mix(in srgb, var(--surface-secondary), var(--surface-primary) 55%);
+  display: grid;
+  gap: var(--sk-gap);
+  width: 100%;
+}
+
+.sk-item {
+  width: var(--sk-width, 100%);
+  height: var(--sk-height, 14px);
+  border-radius: var(--sk-radius, 8px);
+  background: var(--sk-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.sk-text .sk-item {
+  align-self: center;
+}
+
+.sk-pulse .sk-item {
+  animation: sk-pulse 1.5s ease-in-out infinite;
+}
+
+.sk-shimmer .sk-item {
+  background: linear-gradient(
+    90deg,
+    var(--sk-bg) 0%,
+    var(--sk-shine) 50%,
+    var(--sk-bg) 100%
+  );
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes sk-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes sk-shimmer {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}

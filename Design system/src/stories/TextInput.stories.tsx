@@ -101,4 +101,3 @@ export const LayoutExamples: Story = {
     </div>
   ),
 };
-

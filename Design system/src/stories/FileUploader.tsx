@@ -2,6 +2,35 @@ import { useId, useMemo, useRef, useState } from "react";
 import "./FileUploader.css";
 
 /* =========================
+   Upload icon (Figma-style)
+========================= */
+
+const UploadIcon = () => (
+  <svg
+    width="48"
+    height="48"
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden
+  >
+    <path
+      d="M24 32V16m0 0l-6 6m6-6l6 6"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M8 32v4a4 4 0 004 4h24a4 4 0 004-4v-4"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+/* =========================
    Types (inline)
 ========================= */
 
@@ -66,15 +95,6 @@ export function FileUploader({
     return "default";
   }, [state, hasFiles]);
 
-  const formattedFiles = useMemo(
-    () =>
-      files.map((file) => ({
-        file,
-        readableSize: formatFileSize(file.size),
-      })),
-    [files],
-  );
-
   function handleFiles(list: FileList | null) {
     if (!list) return;
     const next = Array.from(list);
@@ -87,7 +107,7 @@ export function FileUploader({
   }
 
   return (
-    <div className="fu-root" data-state={visualState}>
+    <div className="fu-root">
       <div
         className={[
           "fu-dropzone",
@@ -123,12 +143,12 @@ export function FileUploader({
         }}
       >
         <div className="fu-icon" aria-hidden="true">
-          {visualState === "uploaded" ? <CheckIcon /> : <UploadIcon />}
+          <UploadIcon />
         </div>
 
         <div className="fu-content">
-          <p className="fu-title">{title}</p>
-          <p className="fu-description">{description}</p>
+          <div className="fu-title">{title}</div>
+          <div className="fu-description">{description}</div>
 
           <button
             type="button"
@@ -162,28 +182,16 @@ export function FileUploader({
       </div>
 
       {hasFiles && (
-        <div className="fu-filelist" aria-live="polite">
-          {formattedFiles.map(({ file, readableSize }, index) => (
+        <div className="fu-filelist">
+          {files.map((file, index) => (
             <div className="fu-file" key={`${file.name}-${index}`}>
-              <div className="fu-file-info">
-                <span className="fu-file-icon" aria-hidden="true">
-                  <FileIcon />
-                </span>
-
-                <div>
-                  <div className="fu-filename">{file.name}</div>
-                  {readableSize ? (
-                    <div className="fu-filesize">{readableSize}</div>
-                  ) : null}
-                </div>
-              </div>
+              <span className="fu-filename">{file.name}</span>
 
               {onRemove && (
                 <button
                   type="button"
                   className="fu-remove"
                   onClick={() => onRemove(index)}
-                  aria-label={`Remover ${file.name}`}
                 >
                   Remover
                 </button>
@@ -195,103 +203,3 @@ export function FileUploader({
     </div>
   );
 }
-
-/* =========================
-   Helpers
-========================= */
-
-function formatFileSize(bytes: number | undefined) {
-  if (!bytes && bytes !== 0) return "";
-  if (bytes < 1024) return `${bytes} B`;
-  const units = ["KB", "MB", "GB", "TB"];
-  let size = bytes / 1024;
-  let unitIndex = 0;
-  while (size >= 1024 && unitIndex < units.length - 1) {
-    size /= 1024;
-    unitIndex += 1;
-  }
-  const rounded = size >= 10 ? size.toFixed(0) : size.toFixed(1);
-  return `${rounded} ${units[unitIndex]}`;
-}
-
-const UploadIcon = () => (
-  <svg
-    width="48"
-    height="48"
-    viewBox="0 0 48 48"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="24" cy="24" r="24" fill="#EEF4FF" />
-    <path
-      d="M24 14v17"
-      stroke="#0055FF"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="m17 21 7-7 7 7"
-      stroke="#0055FF"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M16 32h16"
-      stroke="#0055FF"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg
-    width="48"
-    height="48"
-    viewBox="0 0 48 48"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="24" cy="24" r="24" fill="#EAFBF2" />
-    <path
-      d="m17.5 24 4.5 4.5 8.5-9"
-      stroke="#12A454"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const FileIcon = () => (
-  <svg
-    width="28"
-    height="32"
-    viewBox="0 0 28 32"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M5 2h12l6 6v22a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"
-      fill="#EEF2FF"
-      stroke="#CBD5F5"
-      strokeWidth="1.5"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M17 2v6h6"
-      stroke="#CBD5F5"
-      strokeWidth="1.5"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M8 18h12M8 22h10"
-      stroke="#7C8CBF"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);

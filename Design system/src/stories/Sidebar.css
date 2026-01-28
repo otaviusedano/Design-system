@@ -1,0 +1,209 @@
+.storybook-sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background: #1a1a6b;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  color: #ffffff;
+}
+
+.storybook-sidebar__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px;
+}
+
+.storybook-sidebar__back-button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.15s ease;
+}
+
+.storybook-sidebar__back-button:hover {
+  opacity: 0.7;
+}
+
+.storybook-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.storybook-sidebar__brand-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.storybook-sidebar__brand-text {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1.2;
+  text-transform: lowercase;
+}
+
+.storybook-sidebar__nav {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.storybook-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.storybook-sidebar__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-align: left;
+  font-family: inherit;
+}
+
+.storybook-sidebar__item:hover:not(.storybook-sidebar__item--disabled):not(.storybook-sidebar__item--active) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.storybook-sidebar__item--active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.storybook-sidebar__item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.storybook-sidebar__item-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.storybook-sidebar__item-label {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.storybook-sidebar__item-arrow {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #ffffff;
+  margin-left: auto;
+}
+
+.storybook-sidebar__user-section {
+  padding: 16px;
+  margin-top: auto;
+}
+
+.storybook-sidebar__separator {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 16px;
+}
+
+.storybook-sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.storybook-sidebar__user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storybook-sidebar__user-avatar img,
+.storybook-sidebar__user-avatar svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.storybook-sidebar__user-status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid #1a1a6b;
+}
+
+.storybook-sidebar__user-name {
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.storybook-sidebar__footer {
+  padding: 16px;
+  padding-top: 0;
+}
+
+.storybook-sidebar__copyright {
+  font-size: 12px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .storybook-sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+}

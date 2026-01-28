@@ -1,0 +1,122 @@
+.storybook-digital-signature {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--text-primary, #0f172a);
+}
+
+.storybook-digital-signature__label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary, #64748b);
+}
+
+.storybook-digital-signature__pad {
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  min-height: 140px;
+  border: 1px solid var(--border-secondary, #e2e8f0);
+  background: var(--surface-secondary, #ffffff);
+  border-radius: 8px;
+  padding: 16px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.storybook-digital-signature__pad:hover:not(.storybook-digital-signature.is-disabled .storybook-digital-signature__pad) {
+  border-color: var(--border-focus, #1E1E68);
+}
+
+.storybook-digital-signature__pad:focus {
+  outline: none;
+  border-color: var(--border-focus, #1E1E68);
+  box-shadow: 0 0 0 1px var(--border-focus, #1E1E68);
+}
+
+.storybook-digital-signature.is-error .storybook-digital-signature__pad {
+  border-color: var(--border-negative, #dc2626);
+  box-shadow: 0 0 0 1px var(--border-negative, #dc2626);
+}
+
+.storybook-digital-signature.is-disabled .storybook-digital-signature__pad {
+  background: var(--surface-disabled, #f1f5f9);
+  border-color: var(--border-secondary, #e2e8f0);
+  cursor: not-allowed;
+}
+
+.storybook-digital-signature__body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88px;
+  padding-right: 160px;
+}
+
+.storybook-digital-signature__placeholder {
+  font-size: 14px;
+  color: var(--text-secondary, #94a3b8);
+  user-select: none;
+}
+
+.storybook-digital-signature__signature-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.storybook-digital-signature__signature-svg {
+  height: 32px;
+  width: auto;
+  max-width: 100%;
+}
+
+.storybook-digital-signature__logo-wrap {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.storybook-digital-signature__logo {
+  display: block;
+  height: 32px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  object-position: right bottom;
+}
+
+.storybook-digital-signature__helper {
+  font-size: 12px;
+  color: var(--text-negative, #dc2626);
+}
+
+.storybook-digital-signature.is-disabled .storybook-digital-signature__helper {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .storybook-digital-signature__body {
+    padding-right: 0;
+    padding-bottom: 44px;
+  }
+
+  .storybook-digital-signature__logo-wrap {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .storybook-digital-signature__logo {
+    max-width: 100px;
+    height: 28px;
+  }
+}

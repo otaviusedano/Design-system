@@ -1,0 +1,82 @@
+.tabs-root {
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.tabs-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-secondary);
+  padding-bottom: 6px;
+}
+
+.tabs-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  border-radius: 10px 10px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.tabs-trigger.is-active {
+  color: var(--text-primary);
+}
+
+.tabs-trigger.is-active::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -7px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--surface-highlight);
+}
+
+.tabs-trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--border-focus), transparent 65%);
+}
+
+.tabs-icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  color: var(--icon-primary);
+}
+
+.tabs-trigger.is-active .tabs-icon {
+  color: var(--text-primary);
+}
+
+.tabs-sm .tabs-trigger {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.tabs-lg .tabs-trigger {
+  padding: 10px 16px;
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  .tabs-list {
+    gap: 6px;
+  }
+
+  .tabs-panel {
+    padding: 12px;
+  }
+}

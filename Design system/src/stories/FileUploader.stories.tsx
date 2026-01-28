@@ -9,6 +9,10 @@ const meta: Meta<typeof FileUploader> = {
   component: FileUploader,
   tags: ["autodocs"],
   parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=358-438&m=dev",
+    },
     layout: "centered",
     chromatic: {
       viewports: [360, 768, 1200],
@@ -16,7 +20,7 @@ const meta: Meta<typeof FileUploader> = {
     docs: {
       description: {
         component:
-          "Uploader oficial do sistema Codex Topaz, seguindo as cores, estados e comportamento descritos no Figma.",
+          "Uploader do design system Topaz. Arraste e solte ou use o botão para selecionar arquivos. Estados: default, focus, uploaded, error, disabled.",
       },
     },
   },

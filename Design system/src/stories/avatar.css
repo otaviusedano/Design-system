@@ -1,0 +1,79 @@
+.storybook-avatar-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.storybook-avatar-wrapper--clickable {
+  cursor: pointer;
+}
+
+.storybook-avatar-wrapper--clickable:focus {
+  outline: 2px solid #1a1a6b;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.storybook-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.storybook-avatar--small {
+  width: 32px;
+  height: 32px;
+}
+
+.storybook-avatar--medium {
+  width: 40px;
+  height: 40px;
+}
+
+.storybook-avatar--large {
+  width: 48px;
+  height: 48px;
+}
+
+.storybook-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.storybook-avatar__initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  font-weight: 600;
+  user-select: none;
+}
+
+.storybook-avatar--small .storybook-avatar__initials {
+  font-size: 12px;
+}
+
+.storybook-avatar--medium .storybook-avatar__initials {
+  font-size: 14px;
+}
+
+.storybook-avatar--large .storybook-avatar__initials {
+  font-size: 16px;
+}
+
+.storybook-avatar__name {
+  font-size: 14px;
+  font-weight: 400;
+  color: #0f172a;
+  line-height: 1.5;
+}

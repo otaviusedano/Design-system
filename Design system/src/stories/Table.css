@@ -1,0 +1,222 @@
+.storybook-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.storybook-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.storybook-table__caption {
+  padding: 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.storybook-table__head {
+  background: #1a1a6b;
+}
+
+.storybook-table__head .storybook-table__cell {
+  padding: 14px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  border-bottom: none;
+  white-space: nowrap;
+}
+
+.storybook-table__header-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.storybook-table__cell--sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.storybook-table__cell--sortable:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.storybook-table__sort-indicator {
+  font-size: 12px;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.storybook-table__cell--checkbox {
+  width: 48px;
+  padding: 14px 16px !important;
+  text-align: center;
+}
+
+.storybook-table__checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #1a1a6b;
+}
+
+.storybook-table__head .storybook-table__checkbox {
+  accent-color: #ffffff;
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+
+.storybook-table__head .storybook-table__checkbox:checked {
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+
+.storybook-table__cell--actions {
+  width: 64px;
+  text-align: center;
+}
+
+.storybook-table__action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.storybook-table__action-button:hover:not(:disabled) {
+  background-color: #f1f5f9;
+  color: #1a1a6b;
+}
+
+.storybook-table__action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.storybook-table__body .storybook-table__cell {
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+.storybook-table__row {
+  background-color: #ffffff;
+}
+
+.storybook-table__row:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.storybook-table__row--selected {
+  background-color: #f0f9ff !important;
+}
+
+.storybook-table__row--highlighted {
+  background-color: #f0f9ff;
+}
+
+.storybook-table__row:nth-child(even).storybook-table__row--highlighted {
+  background-color: #e0f2fe;
+}
+
+.storybook-table__row:nth-child(even).storybook-table__row--selected {
+  background-color: #dbeafe !important;
+}
+
+.storybook-table__row:last-child .storybook-table__cell {
+  border-bottom: none;
+}
+
+.storybook-table__row--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.storybook-table__row--disabled .storybook-table__cell {
+  color: #94a3b8;
+}
+
+.storybook-table__row--clickable {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.storybook-table__row--clickable:hover:not(.storybook-table__row--disabled) {
+  background-color: #f1f5f9;
+}
+
+.storybook-table__row--empty .storybook-table__cell {
+  padding: 40px 16px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.storybook-table__cell--left {
+  text-align: left;
+}
+
+.storybook-table__cell--center {
+  text-align: center;
+}
+
+.storybook-table__cell--right {
+  text-align: right;
+}
+
+.storybook-table__foot {
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.storybook-table__cell--footer {
+  padding: 16px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a6b;
+}
+
+.storybook-table__cell--footer strong {
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .storybook-table-wrapper {
+    border-radius: 6px;
+  }
+
+  .storybook-table__head .storybook-table__cell {
+    padding: 12px;
+    font-size: 11px;
+  }
+
+  .storybook-table__body .storybook-table__cell {
+    padding: 12px;
+    font-size: 13px;
+  }
+}

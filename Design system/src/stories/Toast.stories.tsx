@@ -24,10 +24,6 @@ const meta: Meta<typeof Toast> = {
       control: "select",
       options: ["success", "error"],
     },
-    layout: {
-      control: "inline-radio",
-      options: ["desktop", "mobile"],
-    },
   },
   args: {
     title: "Texto de feedback",
@@ -44,24 +40,23 @@ export const Error: Story = {
   args: {
     state: "error",
     title: "Não foi possível enviar",
-    description: "Tente novamente em alguns instantes.",
+  },
+};
+
+export const WithAction: Story = {
+  args: {
+    title: "Documento enviado",
+    actionLabel: "Desfazer",
+    onAction: fn(),
   },
 };
 
 export const Interaction: Story = {
   args: {
-    actionLabel: "Ver detalhes",
-    onAction: fn(),
     onDismiss: fn(),
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const actionButton = await canvas.findByRole("button", {
-      name: /ver detalhes/i,
-    });
-    await userEvent.click(actionButton);
-    expect(args.onAction).toHaveBeenCalledTimes(1);
-
     const dismissButton = await canvas.findByRole("button", { name: /fechar/i });
     await userEvent.click(dismissButton);
     expect(args.onDismiss).toHaveBeenCalledTimes(1);

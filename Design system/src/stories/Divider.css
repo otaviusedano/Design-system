@@ -1,0 +1,94 @@
+.divider {
+  --divider-thickness: 1px;
+  --divider-color: var(--border-secondary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  color: var(--text-secondary);
+}
+
+.divider-line {
+  flex: 1;
+  height: var(--divider-thickness);
+  background: var(--divider-color);
+}
+
+.divider-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.divider-vertical {
+  flex-direction: column;
+  width: var(--divider-thickness);
+  height: 100%;
+  min-height: 80px;
+  gap: 8px;
+}
+
+.divider-vertical .divider-line {
+  width: var(--divider-thickness);
+  height: 100%;
+}
+
+.divider-sm {
+  --divider-thickness: 1px;
+}
+
+.divider-md {
+  --divider-thickness: 2px;
+}
+
+.divider-lg {
+  --divider-thickness: 3px;
+}
+
+.divider-muted {
+  --divider-color: color-mix(in srgb, var(--border-secondary), transparent 35%);
+  color: var(--text-secondary);
+}
+
+.divider-strong {
+  --divider-color: var(--border-primary);
+  color: var(--text-primary);
+}
+
+.divider-dashed .divider-line {
+  background: transparent;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--divider-color),
+    var(--divider-color) 8px,
+    transparent 8px,
+    transparent 14px
+  );
+}
+
+.divider-vertical.divider-dashed .divider-line {
+  background-image: repeating-linear-gradient(
+    0deg,
+    var(--divider-color),
+    var(--divider-color) 8px,
+    transparent 8px,
+    transparent 14px
+  );
+}
+
+.divider-align-start .divider-line:first-of-type {
+  flex: 0 1 20%;
+}
+
+.divider-align-end .divider-line:last-of-type {
+  flex: 0 1 20%;
+}
+
+@media (max-width: 480px) {
+  .divider {
+    gap: 8px;
+  }
+}

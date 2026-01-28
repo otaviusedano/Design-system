@@ -3,9 +3,8 @@
   max-width: 560px;
   display: grid;
   gap: 16px;
-  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
-    sans-serif;
-  color: var(--text-primary);
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--text-primary, #080808);
 }
 
 .fu-dropzone {
@@ -15,34 +14,46 @@
   align-items: center;
   text-align: center;
   gap: 12px;
-  padding: 32px;
-  border-radius: 18px;
-  border: 2px dashed var(--border-secondary);
-  background: var(--surface-primary);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease,
-    color 0.2s ease;
+  padding: 32px 24px;
+  border-radius: 12px;
+  border: 2px dashed var(--border-secondary, #e0e0dc);
+  background: var(--surface-secondary, #f5f5f9);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   cursor: pointer;
-}
-
-.fu-root[data-state="disabled"] .fu-dropzone {
-  cursor: not-allowed;
+  box-sizing: border-box;
 }
 
 .fu-dropzone:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px
-    color-mix(in srgb, var(--border-focus), transparent 80%);
+  border-color: var(--border-focus, #1e1e68);
+  box-shadow: 0 0 0 1px var(--border-focus, #1e1e68);
 }
 
 .fu-icon {
-  width: 72px;
-  height: 72px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  color: var(--icon-secondary, #878787);
+}
+
+.fu-dropzone.fu-focus .fu-icon,
+.fu-dropzone.fu-dragover .fu-icon {
+  color: var(--icon-highlight, #1e1e68);
+}
+
+.fu-dropzone.fu-uploaded .fu-icon {
+  color: var(--icon-positive, #00d829);
+}
+
+.fu-dropzone.fu-error .fu-icon {
+  color: var(--icon-negative, #f01010);
+}
+
+.fu-dropzone.fu-disabled .fu-icon {
+  color: var(--icon-disabled, #9c9d9f);
 }
 
 .fu-content {
@@ -50,49 +61,46 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  max-width: 420px;
+  max-width: 360px;
 }
 
 .fu-title {
   font-size: 16px;
-  font-weight: 600;
-  color: inherit;
+  font-weight: 700;
+  color: var(--text-primary, #080808);
+  line-height: 1.4;
 }
 
 .fu-description {
   font-size: 14px;
-  color: var(--text-secondary);
+  font-weight: 400;
+  color: var(--text-secondary, #707870);
+  line-height: 1.5;
 }
 
 .fu-button {
   margin-top: 4px;
-  height: 36px;
-  padding: 0 24px;
-  border-radius: 999px;
-  border: none;
+  min-height: 40px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid transparent;
   font-size: 14px;
-  font-weight: 600;
-  background: linear-gradient(
-    90deg,
-    var(--surface-pressed) 0%,
-    var(--surface-hover) 100%
-  );
-  color: var(--text-invert);
+  font-weight: 800;
+  font-family: inherit;
+  background: var(--surface-pressed, #181b5e);
+  color: var(--text-invert, #ffffff);
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    opacity 0.2s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--text-primary, #080808), transparent 88%);
+}
+
+.fu-button:hover:not(:disabled) {
+  filter: brightness(1.05);
 }
 
 .fu-button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--border-focus), transparent 65%);
-}
-
-.fu-button:active {
-  transform: translateY(1px);
+  box-shadow: 0 0 0 2px var(--border-focus, #1e1e68);
 }
 
 .fu-button:disabled {
@@ -103,58 +111,54 @@
 
 .fu-helper {
   font-size: 12px;
-  color: var(--text-secondary);
+  font-weight: 400;
+  color: var(--text-secondary, #707870);
+  margin-top: 2px;
 }
 
 .fu-helper.fu-error {
-  color: var(--text-negative);
+  color: var(--text-negative, #f01010);
 }
 
 /* States */
 
 .fu-dropzone.fu-focus,
 .fu-dropzone.fu-dragover {
-  border-color: var(--border-focus);
-  background: var(--surface-secondary);
-  box-shadow: 0 8px 32px color-mix(
-      in srgb,
-      var(--border-focus),
-      transparent 85%
-    );
+  border-color: var(--border-focus, #1e1e68);
+  background: var(--surface-primary, #ffffff);
+  box-shadow: 0 0 0 1px var(--border-focus, #1e1e68);
 }
 
 .fu-dropzone.fu-uploaded {
-  border-color: var(--border-positive);
-  background: color-mix(
-      in srgb,
-      var(--surface-primary),
-      var(--text-positive) 12%
-    );
+  border-color: var(--border-positive, #00d829);
+  border-style: dashed;
+  background: color-mix(in srgb, var(--surface-primary, #ffffff) 92%, var(--text-positive, #00bc24));
 }
 
 .fu-dropzone.fu-error {
-  border-color: var(--border-negative);
-  background: color-mix(
-      in srgb,
-      var(--surface-primary),
-      var(--text-negative) 12%
-    );
+  border-color: var(--border-negative, #f01010);
+  background: color-mix(in srgb, var(--surface-primary, #ffffff) 95%, var(--text-negative, #f01010));
 }
 
 .fu-dropzone.fu-disabled {
-  border-color: var(--border-secondary);
-  background: var(--surface-disabled);
-  color: var(--text-secondary);
-  box-shadow: none;
+  border-color: var(--border-secondary, #e0e0dc);
+  background: var(--surface-disabled, #e0e0dc);
+  color: var(--text-secondary, #707870);
+  cursor: not-allowed;
+}
+
+.fu-dropzone.fu-disabled .fu-title {
+  color: var(--text-secondary, #707870);
 }
 
 .fu-dropzone.fu-disabled .fu-description {
-  color: var(--text-secondary);
+  color: var(--text-secondary, #707870);
 }
 
 .fu-dropzone.fu-disabled .fu-button {
-  background: var(--surface-disabled);
-  color: var(--text-secondary);
+  background: var(--surface-disabled, #e0e0dc);
+  color: var(--text-secondary, #707870);
+  box-shadow: none;
 }
 
 /* File list */
@@ -168,62 +172,40 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--border-secondary);
-  background: var(--surface-secondary);
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-secondary, #e0e0dc);
+  background: var(--surface-secondary, #f5f5f9);
   gap: 12px;
-}
-
-.fu-file-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.fu-file-icon {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .fu-filename {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary);
-}
-
-.fu-filesize {
-  font-size: 12px;
-  color: var(--text-secondary);
+  color: var(--text-primary, #080808);
 }
 
 .fu-remove {
-  height: 34px;
-  padding: 0 18px;
-  border-radius: 999px;
-  border: 1px solid var(--border-primary);
+  min-height: 36px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-focus, #1e1e68);
   background: transparent;
   font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--text-highlight, #1e1e68);
   cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .fu-remove:hover {
-  border-color: var(--border-focus);
+  background: color-mix(in srgb, var(--border-focus, #1e1e68), transparent 92%);
 }
 
 .fu-remove:focus-visible {
   outline: none;
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--border-focus), transparent 70%);
+  box-shadow: 0 0 0 2px var(--border-focus, #1e1e68);
 }
 
 .fu-input {
@@ -232,7 +214,11 @@
 
 @media (max-width: 480px) {
   .fu-dropzone {
-    padding: 24px 20px;
+    padding: 24px 16px;
+  }
+
+  .fu-content {
+    max-width: 100%;
   }
 
   .fu-file {

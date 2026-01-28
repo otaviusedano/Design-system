@@ -1,0 +1,146 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--text-primary), transparent 75%);
+  z-index: 100;
+}
+
+.modal-panel {
+  width: min(520px, 100%);
+  max-height: min(80vh, 720px);
+  overflow: hidden;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--text-primary), transparent 80%);
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  color: var(--text-primary);
+}
+
+.modal-tone-danger {
+  border-color: color-mix(in srgb, var(--border-negative), var(--border-secondary) 40%);
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--border-negative), transparent 82%);
+}
+
+.modal-size-sm {
+  width: min(360px, 100%);
+}
+
+.modal-size-md {
+  width: min(520px, 100%);
+}
+
+.modal-size-lg {
+  width: min(720px, 100%);
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px 12px;
+}
+
+.modal-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.modal-description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.modal-close {
+  border: none;
+  background: transparent;
+  color: var(--icon-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.modal-close:hover {
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+}
+
+.modal-body {
+  padding: 16px 24px 24px;
+  font-size: 14px;
+  color: var(--text-primary);
+  overflow: auto;
+}
+
+.modal-placeholder {
+  height: 220px;
+  border: 2px dashed var(--border-focus);
+  border-radius: 12px;
+  color: var(--text-highlight);
+  background: color-mix(in srgb, var(--surface-primary), var(--surface-hover) 10%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.modal-footer {
+  padding: 16px 24px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-footer .storybook-button {
+  border-radius: 8px;
+}
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+
+  .modal-panel {
+    max-height: 90vh;
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal-action {
+    width: 100%;
+  }
+}

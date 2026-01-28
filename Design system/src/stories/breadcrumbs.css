@@ -1,0 +1,114 @@
+.storybook-breadcrumbs-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.storybook-breadcrumbs {
+  display: flex;
+  align-items: center;
+}
+
+.storybook-breadcrumbs__list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 8px;
+}
+
+.storybook-breadcrumbs__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.storybook-breadcrumbs__link {
+  font-size: 14px;
+  font-weight: 400;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  font-family: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.storybook-breadcrumbs__link:hover {
+  color: #1a1a6b;
+  text-decoration: underline;
+}
+
+.storybook-breadcrumbs__link--button {
+  cursor: pointer;
+}
+
+.storybook-breadcrumbs__link--current {
+  color: #0f172a;
+  font-weight: 500;
+  cursor: default;
+  text-decoration: none;
+}
+
+.storybook-breadcrumbs__link--current:hover {
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.storybook-breadcrumbs__separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.storybook-breadcrumbs__item--truncated {
+  position: relative;
+}
+
+.storybook-breadcrumbs__link--truncated {
+  cursor: default;
+}
+
+.storybook-breadcrumbs__tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.storybook-breadcrumbs__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #1f2937;
+}
+
+.storybook-breadcrumbs__title {
+  color: var(--Color-Text-highlight, #1e1e68);
+  font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+  margin: 0;
+}
