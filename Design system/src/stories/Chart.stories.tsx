@@ -1,275 +1,127 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { Chart } from './Chart';
+import { Chart } from "./Chart";
 
 const meta = {
-  title: 'Components/Chart',
+  title: "Components/Chart",
   component: Chart,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     design: {
-      type: 'figma',
-      url: 'https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=761-2271&m=dev',
+      type: "figma",
+      url: "https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=761-2271&m=dev",
     },
-    layout: 'padded',
+    layout: "padded",
+  },
+  args: {
+    variation: "simple",
+    type: "bar",
+    size: "default",
+    showLegend: true,
+    withInfoRight: true,
   },
   argTypes: {
+    variation: {
+      control: { type: "select" },
+      options: ["simple", "type", "multi", "multi-type"],
+    },
     type: {
-      control: { type: 'select' },
-      options: ['line', 'bar', 'area', 'pie'],
+      control: { type: "select" },
+      options: ["bar", "line", "circle"],
     },
-    height: {
-      control: { type: 'number', min: 100, max: 500 },
+    size: {
+      control: { type: "select" },
+      options: ["default", "sm", "md"],
     },
-    color: {
-      control: { type: 'color' },
-    },
+    showLegend: { control: "boolean" },
+    withInfoRight: { control: "boolean" },
   },
 } satisfies Meta<typeof Chart>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const sampleData = [
-  { label: 'Jan', value: 45 },
-  { label: 'Fev', value: 52 },
-  { label: 'Mar', value: 48 },
-  { label: 'Abr', value: 61 },
-  { label: 'Mai', value: 55 },
-  { label: 'Jun', value: 67 },
-  { label: 'Jul', value: 72 },
-  { label: 'Ago', value: 68 },
-  { label: 'Set', value: 75 },
-  { label: 'Out', value: 80 },
-  { label: 'Nov', value: 78 },
-  { label: 'Dez', value: 85 },
-];
+export const Default: Story = {};
 
-export const Default: Story = {
+export const SimpleBarWithInfoRight: Story = {
   args: {
-    title: 'Vendas mensais',
-    data: sampleData,
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
+    variation: "simple",
+    type: "bar",
+    withInfoRight: true,
   },
 };
 
-export const LineChart: Story = {
+export const TypeBarWithInfoRight: Story = {
   args: {
-    title: 'Vendas mensais',
-    data: sampleData,
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-    onClick: (point, index) => console.log('Clicked:', point, index),
+    variation: "type",
+    type: "bar",
+    withInfoRight: true,
   },
 };
 
-export const AreaChart: Story = {
+export const TypeBarWithoutInfoRight: Story = {
   args: {
-    title: 'Vendas mensais',
-    data: sampleData,
-    type: 'area',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
+    variation: "type",
+    type: "bar",
+    withInfoRight: false,
   },
 };
 
-export const BarChart: Story = {
+export const TypeLineWithInfoRight: Story = {
   args: {
-    title: 'Vendas mensais',
-    data: sampleData,
-    type: 'bar',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-    onClick: (point, index) => console.log('Clicked:', point, index),
+    variation: "type",
+    type: "line",
+    withInfoRight: true,
   },
 };
 
-export const WithYAxis: Story = {
+export const TypeLineWithoutInfoRight: Story = {
   args: {
-    title: 'Vendas mensais',
-    data: sampleData.map((d) => ({ ...d, value: d.value * 1000 })),
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-    showYAxis: true,
+    variation: "type",
+    type: "line",
+    withInfoRight: false,
   },
 };
 
-export const PieChart2Items: Story = {
+export const MultiBar: Story = {
   args: {
-    title: 'Distribuição de vendas',
-    data: [
-      { label: 'Online', value: 60, color: '#1a1a6b' },
-      { label: 'Presencial', value: 40, color: '#3b82f6' },
-    ],
-    type: 'pie',
-    height: 300,
-    onClick: (point, index) => console.log('Clicked:', point, index),
+    variation: "multi",
+    type: "bar",
+    withInfoRight: true,
   },
 };
 
-export const PieChart3Items: Story = {
+export const MultiTypeArea: Story = {
   args: {
-    title: 'Distribuição de vendas',
-    data: [
-      { label: 'Q1', value: 30, color: '#1a1a6b' },
-      { label: 'Q2', value: 25, color: '#3b82f6' },
-      { label: 'Q3', value: 45, color: '#10b981' },
-    ],
-    type: 'pie',
-    height: 300,
-    onClick: (point, index) => console.log('Clicked:', point, index),
+    variation: "multi-type",
+    type: "line",
+    withInfoRight: true,
   },
 };
 
-export const PieChart4Items: Story = {
+export const CircleSmWithoutInfoRight: Story = {
   args: {
-    title: 'Distribuição de vendas',
-    data: [
-      { label: 'Q1', value: 30, color: '#1a1a6b' },
-      { label: 'Q2', value: 25, color: '#3b82f6' },
-      { label: 'Q3', value: 20, color: '#10b981' },
-      { label: 'Q4', value: 25, color: '#f59e0b' },
-    ],
-    type: 'pie',
-    height: 300,
-    onClick: (point, index) => console.log('Clicked:', point, index),
+    variation: "type",
+    type: "circle",
+    size: "sm",
+    withInfoRight: false,
   },
 };
 
-export const CustomColor: Story = {
+export const CircleMdWithoutInfoRight: Story = {
   args: {
-    title: 'Vendas mensais',
-    data: sampleData,
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-    color: '#10b981',
+    variation: "type",
+    type: "circle",
+    size: "md",
+    withInfoRight: false,
   },
 };
 
-export const SmallDataset: Story = {
+export const CircleMdWithInfoRight: Story = {
   args: {
-    title: 'Vendas semanais',
-    data: [
-      { label: 'Seg', value: 20 },
-      { label: 'Ter', value: 35 },
-      { label: 'Qua', value: 28 },
-      { label: 'Qui', value: 42 },
-      { label: 'Sex', value: 50 },
-    ],
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-  },
-};
-
-export const WithoutTitle: Story = {
-  args: {
-    data: sampleData,
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-  },
-};
-
-export const LineChart2Items: Story = {
-  args: {
-    title: 'Vendas por trimestre',
-    data: [
-      { label: 'Q1', value: 12000, color: '#1a1a6b' },
-      { label: 'Q2', value: 15000, color: '#3b82f6' },
-    ],
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-  },
-};
-
-export const LineChart3Items: Story = {
-  args: {
-    title: 'Vendas por trimestre',
-    data: [
-      { label: 'Q1', value: 12000, color: '#1a1a6b' },
-      { label: 'Q2', value: 15000, color: '#3b82f6' },
-      { label: 'Q3', value: 18000, color: '#10b981' },
-    ],
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-  },
-};
-
-export const LineChart4Items: Story = {
-  args: {
-    title: 'Vendas por trimestre',
-    data: [
-      { label: 'Q1', value: 12000, color: '#1a1a6b' },
-      { label: 'Q2', value: 15000, color: '#3b82f6' },
-      { label: 'Q3', value: 18000, color: '#10b981' },
-      { label: 'Q4', value: 20000, color: '#f59e0b' },
-    ],
-    type: 'line',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-  },
-};
-
-export const BarChart2Items: Story = {
-  args: {
-    title: 'Vendas por trimestre',
-    data: [
-      { label: 'Q1', value: 12000, color: '#1a1a6b' },
-      { label: 'Q2', value: 15000, color: '#3b82f6' },
-    ],
-    type: 'bar',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-  },
-};
-
-export const BarChart3Items: Story = {
-  args: {
-    title: 'Vendas por trimestre',
-    data: [
-      { label: 'Q1', value: 12000, color: '#1a1a6b' },
-      { label: 'Q2', value: 15000, color: '#3b82f6' },
-      { label: 'Q3', value: 18000, color: '#10b981' },
-    ],
-    type: 'bar',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
-  },
-};
-
-export const BarChart4Items: Story = {
-  args: {
-    title: 'Vendas por trimestre',
-    data: [
-      { label: 'Q1', value: 12000, color: '#1a1a6b' },
-      { label: 'Q2', value: 15000, color: '#3b82f6' },
-      { label: 'Q3', value: 18000, color: '#10b981' },
-      { label: 'Q4', value: 20000, color: '#f59e0b' },
-    ],
-    type: 'bar',
-    height: 200,
-    showGrid: true,
-    showLabels: true,
+    variation: "type",
+    type: "circle",
+    size: "md",
+    withInfoRight: true,
   },
 };

@@ -1,233 +1,113 @@
-.fu-root {
-  width: 100%;
-  max-width: 560px;
-  display: grid;
-  gap: 16px;
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: var(--text-primary, #080808);
-}
-
-.fu-dropzone {
-  position: relative;
+.storybook-file-uploader {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg, 16px);
+  padding: var(--spacing-xl, 24px);
+  border-radius: 8px;
+  border: 1px dashed var(--color-border-secondary, #9c9d9f);
+  background: var(--color-surface-primary, #f5f6f9);
   text-align: center;
-  gap: 12px;
-  padding: 32px 24px;
-  border-radius: 12px;
-  border: 2px dashed var(--border-secondary, #e0e0dc);
-  background: var(--surface-secondary, #f5f5f9);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-  cursor: pointer;
   box-sizing: border-box;
 }
 
-.fu-dropzone:focus-visible {
-  outline: none;
-  border-color: var(--border-focus, #1e1e68);
-  box-shadow: 0 0 0 1px var(--border-focus, #1e1e68);
-}
-
-.fu-icon {
-  width: 48px;
-  height: 48px;
+.storybook-file-uploader__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  color: var(--icon-secondary, #878787);
+  font-size: 40px;
+  line-height: 1;
+  color: var(--color-icon-primary, #242424);
 }
 
-.fu-dropzone.fu-focus .fu-icon,
-.fu-dropzone.fu-dragover .fu-icon {
-  color: var(--icon-highlight, #1e1e68);
-}
-
-.fu-dropzone.fu-uploaded .fu-icon {
-  color: var(--icon-positive, #00d829);
-}
-
-.fu-dropzone.fu-error .fu-icon {
-  color: var(--icon-negative, #f01010);
-}
-
-.fu-dropzone.fu-disabled .fu-icon {
-  color: var(--icon-disabled, #9c9d9f);
-}
-
-.fu-content {
+.storybook-file-uploader__content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  max-width: 360px;
+  gap: var(--spacing-sm, 4px);
 }
 
-.fu-title {
-  font-size: 16px;
+.storybook-file-uploader__action {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
   font-weight: 700;
-  color: var(--text-primary, #080808);
-  line-height: 1.4;
+  text-decoration: underline;
+  color: var(--color-text-primary, #242424);
 }
 
-.fu-description {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--text-secondary, #707870);
-  line-height: 1.5;
-}
-
-.fu-button {
-  margin-top: 4px;
-  min-height: 40px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  font-size: 14px;
-  font-weight: 800;
-  font-family: inherit;
-  background: var(--surface-pressed, #181b5e);
-  color: var(--text-invert, #ffffff);
-  cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
-  box-shadow: 0 8px 18px color-mix(in srgb, var(--text-primary, #080808), transparent 88%);
-}
-
-.fu-button:hover:not(:disabled) {
-  filter: brightness(1.05);
-}
-
-.fu-button:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--border-focus, #1e1e68);
-}
-
-.fu-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.fu-helper {
+.storybook-file-uploader__helper {
+  font-family: "Montserrat", sans-serif;
   font-size: 12px;
   font-weight: 400;
-  color: var(--text-secondary, #707870);
-  margin-top: 2px;
+  line-height: 20px;
+  max-width: 180px;
+  text-align: center;
+  color: var(--color-text-secondary, #707070);
 }
 
-.fu-helper.fu-error {
-  color: var(--text-negative, #f01010);
-}
-
-/* States */
-
-.fu-dropzone.fu-focus,
-.fu-dropzone.fu-dragover {
-  border-color: var(--border-focus, #1e1e68);
-  background: var(--surface-primary, #ffffff);
-  box-shadow: 0 0 0 1px var(--border-focus, #1e1e68);
-}
-
-.fu-dropzone.fu-uploaded {
-  border-color: var(--border-positive, #00d829);
-  border-style: dashed;
-  background: color-mix(in srgb, var(--surface-primary, #ffffff) 92%, var(--text-positive, #00bc24));
-}
-
-.fu-dropzone.fu-error {
-  border-color: var(--border-negative, #f01010);
-  background: color-mix(in srgb, var(--surface-primary, #ffffff) 95%, var(--text-negative, #f01010));
-}
-
-.fu-dropzone.fu-disabled {
-  border-color: var(--border-secondary, #e0e0dc);
-  background: var(--surface-disabled, #e0e0dc);
-  color: var(--text-secondary, #707870);
-  cursor: not-allowed;
-}
-
-.fu-dropzone.fu-disabled .fu-title {
-  color: var(--text-secondary, #707870);
-}
-
-.fu-dropzone.fu-disabled .fu-description {
-  color: var(--text-secondary, #707870);
-}
-
-.fu-dropzone.fu-disabled .fu-button {
-  background: var(--surface-disabled, #e0e0dc);
-  color: var(--text-secondary, #707870);
-  box-shadow: none;
-}
-
-/* File list */
-
-.fu-filelist {
-  display: grid;
-  gap: 12px;
-}
-
-.fu-file {
+.storybook-file-uploader__file {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--border-secondary, #e0e0dc);
-  background: var(--surface-secondary, #f5f5f9);
-  gap: 12px;
+  justify-content: center;
+  gap: var(--number-8, 8px);
 }
 
-.fu-filename {
+.storybook-file-uploader__filename {
+  font-family: "Montserrat", sans-serif;
   font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary, #080808);
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--color-text-highlight, #1e1e68);
 }
 
-.fu-remove {
-  min-height: 36px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--border-focus, #1e1e68);
-  background: transparent;
-  font-size: 13px;
-  font-weight: 700;
-  font-family: inherit;
-  color: var(--text-highlight, #1e1e68);
+.storybook-file-uploader__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--color-icon-primary, #242424);
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+button.storybook-file-uploader__remove {
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
 }
 
-.fu-remove:hover {
-  background: color-mix(in srgb, var(--border-focus, #1e1e68), transparent 92%);
+.storybook-file-uploader__success {
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  max-width: 180px;
+  text-align: center;
+  color: var(--color-text-secondary, #707070);
 }
 
-.fu-remove:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--border-focus, #1e1e68);
+.storybook-file-uploader--focus {
+  border-style: solid;
+  border-color: var(--color-border-focus, #000000);
 }
 
-.fu-input {
-  display: none;
+.storybook-file-uploader--uploaded {
+  border-color: var(--color-border-highlight, #1e1e68);
 }
 
-@media (max-width: 480px) {
-  .fu-dropzone {
-    padding: 24px 16px;
-  }
+.storybook-file-uploader--uploaded .storybook-file-uploader__icon {
+  color: var(--color-icon-highlight, #1e1e68);
+}
 
-  .fu-content {
-    max-width: 100%;
-  }
+.storybook-file-uploader--error {
+  border-color: var(--color-border-negative, #d80e0e);
+}
 
-  .fu-file {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.storybook-file-uploader--error .storybook-file-uploader__icon {
+  color: var(--color-icon-negative, #f01010);
+}
 
-  .fu-remove {
-    width: 100%;
-    text-align: center;
-  }
+.storybook-file-uploader--error .storybook-file-uploader__helper {
+  color: var(--color-text-negative, #f01010);
 }

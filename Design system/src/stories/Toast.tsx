@@ -1,14 +1,14 @@
-import type { ReactNode } from "react";
 import "./Toast.css";
 
 export type ToastState = "success" | "error";
+export type ToastDevice = "desktop" | "mobile";
 
 export type ToastProps = {
   id?: string;
+  className?: string;
   state?: ToastState;
+  device?: ToastDevice;
   title: string;
-  actionLabel?: string;
-  onAction?: () => void;
   dismissLabel?: string;
   onDismiss?: () => void;
 };
@@ -16,67 +16,45 @@ export type ToastProps = {
 export function Toast({
   id,
   state = "success",
+  device = "desktop",
   title,
-  actionLabel,
-  onAction,
   dismissLabel = "Fechar",
   onDismiss,
+  className,
 }: ToastProps) {
-  const showAction = Boolean(actionLabel);
   const showDismiss = Boolean(onDismiss);
+  const containerClassName = [
+    "storybook-toast",
+    `storybook-toast--${state}`,
+    `storybook-toast--${device}`,
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
       id={id}
-      className={["toast-root", `toast-${state}`].join(" ")}
+      className={containerClassName}
       role={state === "error" ? "alert" : "status"}
       aria-live={state === "error" ? "assertive" : "polite"}
       aria-atomic="true"
     >
-      <div className="toast-content">
-        <strong className="toast-title">{title}</strong>
-      </div>
-
-      <div className="toast-actions">
-        {showAction ? (
-          <button
-            type="button"
-            className="toast-action"
-            onClick={onAction}
-            aria-label={actionLabel}
-            disabled={!onAction}
-          >
-            {actionLabel}
-          </button>
-        ) : null}
-
-        {showDismiss ? (
-          <button
-            type="button"
-            className="toast-dismiss"
-            onClick={onDismiss}
-            aria-label={dismissLabel}
-          >
-            <span className="toast-dismiss-icon" aria-hidden="true">
-              <CloseIcon />
-            </span>
-          </button>
-        ) : null}
-      </div>
+      <span className="storybook-toast__text">{title}</span>
+      {showDismiss ? (
+        <button
+          type="button"
+          className="storybook-toast__dismiss"
+          onClick={onDismiss}
+          aria-label={dismissLabel}
+        >
+          <i className="fa-light fa-xmark" aria-hidden />
+        </button>
+      ) : (
+        <span className="storybook-toast__dismiss" aria-hidden>
+          <i className="fa-light fa-xmark" aria-hidden />
+        </span>
+      )}
     </div>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-      <path
-        d="m4 4 6 6M10 4l-6 6"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

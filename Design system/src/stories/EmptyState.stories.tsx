@@ -18,42 +18,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Ícone "não encontrado": lupa com barra diagonal indicando busca sem resultados */
-const notFoundIcon = (
-  <svg
-    width="80"
-    height="80"
-    viewBox="0 0 80 80"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden
-  >
-    <circle
-      cx="34"
-      cy="34"
-      r="18"
-      stroke="#94a3b8"
-      strokeWidth="2"
-    />
-    <path
-      d="M48 48l16 16"
-      stroke="#94a3b8"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <path
-      d="M20 54L54 20"
-      stroke="#cbd5e1"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);
+const notFoundIcon = <i className="fa-solid fa-magnifying-glass" aria-hidden />;
 
 export const Default: Story = {
   args: {
-    title: 'Nenhum item encontrado',
-    description: 'Não há itens para exibir no momento.',
+    title: 'Nenhum resultado encontrado',
+    description: 'Não encontramos o que você procurou. Tente ajustar os filtros.',
     icon: notFoundIcon,
   },
 };

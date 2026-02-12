@@ -12,24 +12,15 @@ const meta: Meta<typeof Stepper> = {
     docs: {
       description: {
         component:
-          "Stepper do sistema Codex Topaz conforme o design do Figma.",
+          "Stepper com navegação lateral conforme o design do Figma.",
       },
     },
   },
-  argTypes: {
-    size: { control: "select", options: ["sm", "md", "lg"] },
-  },
   args: {
-    size: "md",
-    activeStep: 1,
-    steps: [
-      { id: "step-1", label: "Dados pessoais" },
-      { id: "step-2", label: "Documentos" },
-      { id: "step-3", label: "Revisao" },
-      { id: "step-4", label: "Confirmacao" },
-      { id: "step-5", label: "Pagamento" },
-      { id: "step-6", label: "Finalizado" },
-    ],
+    device: "desktop",
+    totalSteps: 4,
+    currentStep: 1,
+    stepLabel: "Etapa",
   },
 };
 
@@ -38,8 +29,34 @@ type Story = StoryObj<typeof Stepper>;
 
 export const Default: Story = {};
 
-export const Completed: Story = {
+export const DesktopStep2: Story = {
   args: {
-    activeStep: 3,
+    device: "desktop",
+    totalSteps: 4,
+    currentStep: 2,
+  },
+};
+
+export const DesktopStep6Of8: Story = {
+  args: {
+    device: "desktop",
+    totalSteps: 8,
+    currentStep: 6,
+  },
+};
+
+export const MobileStep1: Story = {
+  args: {
+    device: "mobile",
+    totalSteps: 2,
+    currentStep: 1,
+  },
+};
+
+export const MobileStep6Of8: Story = {
+  args: {
+    device: "mobile",
+    totalSteps: 8,
+    currentStep: 6,
   },
 };

@@ -1,64 +1,64 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { expect, fn, userEvent, within } from "storybook/test";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { Toast } from "./Toast";
 
-const meta: Meta<typeof Toast> = {
+const meta = {
   title: "Components/Toast",
   component: Toast,
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
-    chromatic: { viewports: [360, 768, 1200] },
-    docs: {
-      description: {
-        component:
-          "Toast informativo do sistema Codex Topaz, utilizando os tokens semânticos para estados de sucesso e erro.",
-      },
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=367-904&m=dev",
     },
   },
   argTypes: {
-    onAction: { action: "action-clicked" },
     onDismiss: { action: "dismiss-clicked" },
-    state: {
-      control: "select",
-      options: ["success", "error"],
-    },
   },
-  args: {
-    title: "Texto de feedback",
-    onDismiss: () => {},
-  },
-};
+} satisfies Meta<typeof Toast>;
 
 export default meta;
-type Story = StoryObj<typeof Toast>;
+type Story = StoryObj<typeof meta>;
 
-export const Success: Story = {};
-
-export const Error: Story = {
+export const Default: Story = {
   args: {
-    state: "error",
-    title: "Não foi possível enviar",
+    title: "Texto de feedback",
+    state: "success",
+    device: "desktop",
   },
 };
 
-export const WithAction: Story = {
-  args: {
-    title: "Documento enviado",
-    actionLabel: "Desfazer",
-    onAction: fn(),
-  },
+export const PorTamanho: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <strong>Desktop</strong>
+        <Toast title="Texto de feedback" state="success" device="desktop" />
+        <Toast title="Texto de feedback" state="error" device="desktop" />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <strong>Mobile</strong>
+        <Toast title="Texto de feedback" state="success" device="mobile" />
+        <Toast title="Texto de feedback" state="error" device="mobile" />
+      </div>
+    </div>
+  ),
 };
 
-export const Interaction: Story = {
-  args: {
-    onDismiss: fn(),
-  },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const dismissButton = await canvas.findByRole("button", { name: /fechar/i });
-    await userEvent.click(dismissButton);
-    expect(args.onDismiss).toHaveBeenCalledTimes(1);
-  },
+export const PorTipoDeAviso: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <strong>Success</strong>
+        <Toast title="Texto de feedback" state="success" device="desktop" />
+        <Toast title="Texto de feedback" state="success" device="mobile" />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <strong>Error</strong>
+        <Toast title="Texto de feedback" state="error" device="desktop" />
+        <Toast title="Texto de feedback" state="error" device="mobile" />
+      </div>
+    </div>
+  ),
 };

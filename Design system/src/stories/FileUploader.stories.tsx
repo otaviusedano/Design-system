@@ -1,8 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { useState } from "react";
-
 import { FileUploader } from "./FileUploader";
-import { expect, userEvent, waitFor, within } from "storybook/test";
 
 const meta: Meta<typeof FileUploader> = {
   title: "Components/FileUploader",
@@ -20,23 +17,22 @@ const meta: Meta<typeof FileUploader> = {
     docs: {
       description: {
         component:
-          "Uploader do design system Topaz. Arraste e solte ou use o botão para selecionar arquivos. Estados: default, focus, uploaded, error, disabled.",
+          "Componente de seleção de arquivo no estilo do design system Topaz. Estados: default, focus, uploaded e error.",
       },
     },
   },
   argTypes: {
     state: {
       control: "select",
-      options: ["default", "focus", "uploaded", "error", "disabled"],
+      options: ["default", "focus", "uploaded", "error"],
     },
-    onRemove: { action: "remove" },
   },
   args: {
-    title: "Arraste e solte o arquivo aqui",
-    description: "ou selecione um arquivo do seu computador",
-    buttonLabel: "Selecionar arquivo",
-    helperText: "PDF, PNG ou JPG • até 10MB",
-    accept: ".pdf,.png,.jpg,.jpeg",
+    actionText: "clique para selecionar",
+    helperText: "Deve ter no máximo 25mb e ser PNG ou JPEG",
+    errorText: "Arquivo muito grande ou não é PNG ou JPEG",
+    fileName: "RG_FRENTE.PNG",
+    successText: "Arquivo enviado com sucesso",
   },
 };
 
@@ -54,64 +50,11 @@ export const Focus: Story = {
 export const Error: Story = {
   args: {
     state: "error",
-    errorText: "Formato inválido. Envie um arquivo de até 10MB.",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    state: "disabled",
-    helperText: "Envios temporariamente desativados.",
   },
 };
 
 export const Uploaded: Story = {
-  render: (args) => {
-    const [files, setFiles] = useState<File[]>([
-      new File(["mock"], "documento.pdf", { type: "application/pdf" }),
-      new File(["mock"], "contrato-assinado.png", { type: "image/png" }),
-    ]);
-
-    return (
-      <FileUploader
-        {...args}
-        multiple
-        value={files}
-        onChange={setFiles}
-        onRemove={(index) =>
-          setFiles((prev) => prev.filter((_, i) => i !== index))
-        }
-        helperText="2 arquivos anexados • até 10MB"
-      />
-    );
-  },
-};
-
-export const InteractionUpload: Story = {
-  render: (args) => {
-    const [files, setFiles] = useState<File[]>([]);
-    return <FileUploader {...args} value={files} onChange={setFiles} />;
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const input = canvasElement.querySelector(
-      'input[type="file"]'
-    ) as HTMLInputElement;
-
-    const file = new File(["hello"], "imagem.png", {
-      type: "image/png",
-    });
-
-    await userEvent.upload(input, file);
-    await canvas.findByText("imagem.png");
-
-    // Remove o arquivo novamente para documentar o fluxo completo
-    const removeButton = await canvas.findByRole("button", {
-      name: /remover/i,
-    });
-    await userEvent.click(removeButton);
-    await waitFor(() =>
-      expect(canvas.queryByText("imagem.png")).not.toBeInTheDocument(),
-    );
+  args: {
+    state: "uploaded",
   },
 };

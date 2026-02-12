@@ -1,81 +1,61 @@
-.toast-root {
+.storybook-toast {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
-  padding: 20px 24px;
-  border-radius: 0;
-  border: 1px solid var(--border-secondary);
-  border-bottom: 2px solid var(--border-positive);
-  background: var(--surface-primary);
-  box-shadow: 0 4px 12px 0 rgba(30, 30, 104, 0.12);
-  width: 100%;
-  max-width: 540px;
-  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
-    sans-serif;
-  position: relative;
-  margin: 16px 0 0 20px;
-}
-
-.toast-error {
-  border-bottom-color: var(--border-negative);
-}
-
-.toast-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-  flex: 1;
-}
-
-.toast-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.toast-actions {
-  display: flex;
-  align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  margin-left: auto;
+  padding: 16px;
+  background: var(--color-surface-primary, #f5f6f9);
+  box-shadow: 0 4px 12px 0 rgba(30, 30, 104, 0.12);
+  border-bottom: 2px solid var(--border-positive, #0dd829);
+  box-sizing: border-box;
 }
 
-.toast-action {
-  border: none;
-  background: transparent;
-  color: var(--text-highlight);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
+.storybook-toast--success {
+  border-bottom-color: var(--border-positive, #0dd829);
 }
 
-.toast-action:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.storybook-toast--error {
+  border-bottom-color: var(--border-negative, #d80e0e);
 }
 
-.toast-dismiss {
-  border: none;
-  background: transparent;
-  color: var(--icon-secondary);
-  width: 24px;
-  height: 24px;
-  border-radius: 0;
+.storybook-toast--desktop {
+  width: 680px;
+  max-width: 680px;
+  min-width: 680px;
+}
+
+.storybook-toast--mobile {
+  width: 343px;
+  max-width: 343px;
+  min-width: 343px;
+}
+
+.storybook-toast__text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-primary, #242424);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.storybook-toast__dismiss {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--icon-secondary, #9c9d9f);
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+button.storybook-toast__dismiss {
   cursor: pointer;
-  transition: background 0.15s ease;
 }
 
-.toast-dismiss:hover {
-  background: var(--surface-primary);
-  color: var(--text-primary);
-}
-
-.toast-dismiss-icon {
-  display: inline-flex;
-}

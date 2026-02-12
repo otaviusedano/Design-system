@@ -19,9 +19,7 @@ const meta: Meta<typeof Switch> = {
     },
   },
   args: {
-    label: "Receber notificações por e-mail",
-    helperText: "Ative para ser avisado sempre que houver atualizações.",
-    description: "Mantém você informado em tempo real.",
+    label: "Label",
   },
   argTypes: {
     onCheckedChange: { action: "checked-change" },
@@ -58,7 +56,7 @@ export const Focus: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
-    helperText: "Configuração controlada pelo administrador.",
+    label: "Label",
   },
 };
 

@@ -46,7 +46,7 @@ export function Switch({
         .join(" ")}
       data-state={currentChecked ? "checked" : "unchecked"}
     >
-      <div className="sw-control">
+      <span className="sw-control">
         <input
           id={inputId}
           type="checkbox"
@@ -57,10 +57,10 @@ export function Switch({
           className="sw-input"
           onChange={(event) => toggle(event.target.checked)}
         />
-        <span className="sw-slider" aria-hidden="true">
+        <span className="sw-track" aria-hidden="true">
           <span className="sw-thumb" />
         </span>
-      </div>
+      </span>
       <span className="sw-label">{label}</span>
     </label>
   );

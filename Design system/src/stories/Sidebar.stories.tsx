@@ -29,47 +29,79 @@ const HomeIcon = () => (
   </svg>
 );
 
-const BrandIcon = () => (
-  <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="16" cy="16" r="15" stroke="url(#gradient1)" strokeWidth="2" fill="none" />
-    <circle cx="16" cy="16" r="11" stroke="url(#gradient2)" strokeWidth="1.5" fill="none" />
-    <circle cx="16" cy="16" r="7" stroke="url(#gradient3)" strokeWidth="1" fill="none" />
-    <defs>
-      <linearGradient id="gradient1" x1="0" y1="16" x2="32" y2="16" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#60a5fa" />
-        <stop offset="100%" stopColor="#3b82f6" />
-      </linearGradient>
-      <linearGradient id="gradient2" x1="0" y1="16" x2="32" y2="16" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#60a5fa" />
-        <stop offset="100%" stopColor="#3b82f6" />
-      </linearGradient>
-      <linearGradient id="gradient3" x1="0" y1="16" x2="32" y2="16" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#60a5fa" />
-        <stop offset="100%" stopColor="#3b82f6" />
-      </linearGradient>
-    </defs>
-  </svg>
+const topazLogo =
+  'https://www.figma.com/api/mcp/asset/fa5eaefd-841e-4952-ac0b-caa8e239e019';
+const topazMark =
+  'https://www.figma.com/api/mcp/asset/aa3e56d9-f2fe-4e7f-8c2e-43ba3f8d0444';
+const avatarImage =
+  'https://www.figma.com/api/mcp/asset/c83ce26b-ef0f-4b44-994c-effcecec5577';
+
+const TopazLogo = () => (
+  <img src={topazLogo} alt="Topaz" width="168" height="44" />
+);
+
+const TopazMark = () => (
+  <img src={topazMark} alt="Topaz" width="32" height="32" />
 );
 
 const AvatarImage = () => (
+  <img src={avatarImage} alt="Foto do usuário" width="24" height="24" />
+);
+
+const MenuIcon = () => (
   <svg
-    width="40"
-    height="40"
-    viewBox="0 0 40 40"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
   >
-    <circle cx="20" cy="20" r="20" fill="#dbeafe" />
-    <circle cx="20" cy="16" r="6" fill="#3b82f6" />
     <path
-      d="M8 32c0-6.627 5.373-12 12-12s12 5.373 12 12"
-      fill="#3b82f6"
+      d="M4 7h16M4 12h16M4 17h16"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M6 6l12 12M18 6l-12 12"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const ChevronRightIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M9 18l6-6-6-6"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -92,10 +124,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    device: 'desktop',
+    state: 'expanded',
     header: {
       onBack: () => console.log('Back clicked'),
-      brandIcon: <BrandIcon />,
-      brandText: 'topaz',
+      brandIcon: <TopazLogo />,
     },
     items: [
       {
@@ -156,11 +189,14 @@ export const Default: Story = {
   },
 };
 
-export const WithoutBack: Story = {
+export const Collapsed: Story = {
   args: {
+    device: 'desktop',
+    state: 'collected',
     header: {
-      brandIcon: <BrandIcon />,
-      brandText: 'topaz',
+      onBack: () => console.log('Menu clicked'),
+      backIcon: <MenuIcon />,
+      brandIcon: <TopazMark />,
     },
     items: [
       {
@@ -174,16 +210,46 @@ export const WithoutBack: Story = {
         icon: <HomeIcon />,
       },
     ],
+    user: {
+      avatar: <AvatarImage />,
+      name: 'Lídia Fonseca',
+      isOnline: true,
+    },
+    copyright: '© 2025 Todos os direitos reservados. Stefanini Group',
     activeId: 'link1',
   },
 };
 
-export const WithoutUser: Story = {
+export const Mobile: Story = {
   args: {
+    device: 'mobile',
+    state: 'default',
     header: {
-      onBack: () => console.log('Back clicked'),
-      brandIcon: <BrandIcon />,
-      brandText: 'topaz',
+      mobileContent: (
+        <div className="storybook-sidebar__mobile-header-content">
+          <div className="storybook-sidebar__mobile-field">
+            <span className="storybook-sidebar__mobile-label">Usuário</span>
+            <div className="storybook-sidebar__mobile-input">
+              <span className="storybook-sidebar__mobile-placeholder">
+                Placeholder
+              </span>
+            </div>
+          </div>
+          <div className="storybook-sidebar__mobile-menu">
+            <button
+              type="button"
+              className="storybook-sidebar__icon-button"
+              aria-label="Fechar"
+            >
+              <CloseIcon />
+            </button>
+            <span className="storybook-sidebar__mobile-title">Atendimento</span>
+            <span className="storybook-sidebar__mobile-arrow">
+              <ChevronRightIcon />
+            </span>
+          </div>
+        </div>
+      ),
     },
     items: [
       {
@@ -197,6 +263,11 @@ export const WithoutUser: Story = {
         icon: <HomeIcon />,
       },
     ],
+    user: {
+      avatar: <AvatarImage />,
+      name: 'Lídia Fonseca',
+      isOnline: true,
+    },
     copyright: '© 2025 Todos os direitos reservados. Stefanini Group',
     activeId: 'link1',
   },

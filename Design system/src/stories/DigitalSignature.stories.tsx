@@ -13,10 +13,6 @@ const meta = {
     },
     layout: 'centered',
   },
-  argTypes: {
-    disabled: { control: 'boolean' },
-    placeholder: { control: 'text' },
-  },
 } satisfies Meta<typeof DigitalSignature>;
 
 export default meta;
@@ -24,13 +20,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    placeholder: 'Clique para assinar',
+    state: 'default',
   },
 };
 
 export const Assinado: Story = {
   args: {
-    placeholder: 'Clique para assinar',
-    defaultSigned: true,
+    state: 'signed',
   },
 };
