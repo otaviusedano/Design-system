@@ -1,27 +1,27 @@
 import { useEffect, useId, type ReactNode } from "react";
-import { Button } from "./Button";
 import "./Modal.css";
 
-export type ModalSize = "sm" | "md" | "lg";
-export type ModalTone = "default" | "danger";
+export type ModalSize = "sm" | "md" | "lg" | "xl";
 
 export type ModalAction = {
   label: string;
   onClick?: () => void;
-  variant?: "primary" | "secondary" | "ghost";
+  disabled?: boolean;
 };
 
 export type ModalProps = {
   id?: string;
   open?: boolean;
   size?: ModalSize;
-  tone?: ModalTone;
   title: string;
   description?: string;
+  showIllustration?: boolean;
+  showGhostButton?: boolean;
+  illustration?: ReactNode;
   children?: ReactNode;
+  ghostAction?: ModalAction;
+  outlinedAction?: ModalAction;
   primaryAction?: ModalAction;
-  secondaryAction?: ModalAction;
-  footer?: ReactNode;
   showClose?: boolean;
   closeLabel?: string;
   closeOnOverlay?: boolean;
@@ -32,14 +32,16 @@ export type ModalProps = {
 export function Modal({
   id,
   open = true,
-  size = "md",
-  tone = "default",
+  size = "sm",
   title,
   description,
+  showIllustration = true,
+  showGhostButton = true,
+  illustration,
   children,
+  ghostAction,
+  outlinedAction,
   primaryAction,
-  secondaryAction,
-  footer,
   showClose = true,
   closeLabel = "Fechar",
   closeOnOverlay = true,
@@ -48,7 +50,9 @@ export function Modal({
 }: ModalProps) {
   const titleId = useId();
   const descriptionId = useId();
-  const showFooterActions = Boolean(primaryAction || secondaryAction);
+  const isSmall = size === "sm";
+  const shouldShowIllustration = !isSmall && showIllustration;
+  const shouldShowGhost = !isSmall && showGhostButton && ghostAction;
 
   useEffect(() => {
     if (!open || !closeOnEsc) return;
@@ -77,70 +81,105 @@ export function Modal({
     >
       <div
         id={id}
-        className={[
-          "modal-panel",
-          `modal-size-${size}`,
-          tone === "danger" ? "modal-tone-danger" : "",
-        ].join(" ")}
+        className={["modal-panel", `modal-size-${size}`].join(" ")}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={description ? descriptionId : undefined}
       >
-        <header className="modal-header">
-          <div className="modal-heading">
-            <h2 id={titleId} className="modal-title">
-              {title}
-            </h2>
-            {description ? (
-              <p id={descriptionId} className="modal-description">
-                {description}
-              </p>
+        {isSmall ? (
+          <div className="modal-header-compact">
+            <div className="modal-heading">
+              <div className="modal-title-row">
+                <h2 id={titleId} className="modal-title">
+                  {title}
+                </h2>
+                {showClose ? (
+                  <button
+                    type="button"
+                    className="modal-close"
+                    onClick={onClose}
+                    aria-label={closeLabel}
+                  >
+                    <CloseIcon />
+                  </button>
+                ) : null}
+              </div>
+              {description ? (
+                <p id={descriptionId} className="modal-description">
+                  {description}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        ) : (
+          <div className="modal-header">
+            <div className="modal-heading">
+              {shouldShowIllustration ? (
+                <div className="modal-illustration">
+                  {illustration ?? "Insira a ilustracao ou icone aqui"}
+                </div>
+              ) : null}
+              <h2 id={titleId} className="modal-title">
+                {title}
+              </h2>
+              {description ? (
+                <p id={descriptionId} className="modal-description">
+                  {description}
+                </p>
+              ) : null}
+            </div>
+            {showClose ? (
+              <button
+                type="button"
+                className="modal-close modal-close-floating"
+                onClick={onClose}
+                aria-label={closeLabel}
+              >
+                <CloseIcon />
+              </button>
             ) : null}
           </div>
-          {showClose ? (
+        )}
+
+        <div className="modal-body">
+          <div className="modal-content-placeholder">
+            {children ?? "Insira o conteudo aqui"}
+          </div>
+        </div>
+
+        <footer className="modal-footer">
+          {shouldShowGhost ? (
             <button
               type="button"
-              className="modal-close"
-              onClick={onClose}
-              aria-label={closeLabel}
+              className="modal-action modal-action-ghost"
+              onClick={ghostAction.onClick}
+              disabled={ghostAction.disabled}
             >
-              <CloseIcon />
+              {ghostAction.label}
             </button>
           ) : null}
-        </header>
-
-        {children ? <div className="modal-body">{children}</div> : null}
-        {!children ? (
-          <div className="modal-body">
-            <div className="modal-placeholder">Insira o conteudo aqui</div>
-          </div>
-        ) : null}
-
-        {footer ? (
-          <footer className="modal-footer">{footer}</footer>
-        ) : showFooterActions ? (
-          <footer className="modal-footer">
-            {secondaryAction ? (
-              <Button
-                label={secondaryAction.label}
-                variant={secondaryAction.variant ?? "secondary"}
-                size="small"
-                onClick={secondaryAction.onClick}
-                disabled={!secondaryAction.onClick}
-              />
-            ) : null}
-            {primaryAction ? (
-              <Button
-                label={primaryAction.label}
-                variant={primaryAction.variant ?? "primary"}
-                size="small"
-                onClick={primaryAction.onClick}
-                disabled={!primaryAction.onClick}
-              />
-            ) : null}
-          </footer>
-        ) : null}
+          {outlinedAction ? (
+            <button
+              type="button"
+              className="modal-action modal-action-outlined"
+              onClick={outlinedAction.onClick}
+              disabled={outlinedAction.disabled}
+            >
+              {outlinedAction.label}
+            </button>
+          ) : null}
+          {primaryAction ? (
+            <button
+              type="button"
+              className="modal-action modal-action-primary"
+              onClick={primaryAction.onClick}
+              disabled={primaryAction.disabled}
+            >
+              {primaryAction.label}
+            </button>
+          ) : null}
+        </footer>
       </div>
     </div>
   );

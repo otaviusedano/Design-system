@@ -11,35 +11,38 @@ const meta: Meta<typeof Modal> = {
     docs: {
       description: {
         component:
-          "Modal do sistema Codex Topaz com suporte a tamanhos, acoes e variantes de tom.",
+          "Modal do sistema Topaz seguindo o design do Figma com variacoes de tamanho e botoes.",
       },
     },
   },
   argTypes: {
     size: {
       control: "select",
-      options: ["sm", "md", "lg"],
+      options: ["sm", "md", "lg", "xl"],
     },
-    tone: {
-      control: "select",
-      options: ["default", "danger"],
-    },
+    showIllustration: { control: "boolean" },
+    showGhostButton: { control: "boolean" },
     onClose: { action: "close" },
     closeOnOverlay: { control: "boolean" },
     closeOnEsc: { control: "boolean" },
   },
   args: {
     open: true,
-    title: "Confirmar alteracao",
-    description:
-      "Tem certeza que deseja aplicar as mudancas? Voce pode desfazer depois.",
+    title: "Titulo aqui",
+    description: "Texto de apoio aqui",
+    showIllustration: false,
+    showGhostButton: false,
     onClose: () => {},
-    primaryAction: {
-      label: "Confirmar",
+    outlinedAction: {
+      label: "Button",
       onClick: () => {},
     },
-    secondaryAction: {
-      label: "Cancelar",
+    primaryAction: {
+      label: "Button",
+      onClick: () => {},
+    },
+    ghostAction: {
+      label: "Button",
       onClick: () => {},
     },
   },
@@ -53,26 +56,31 @@ export const Default: Story = {};
 export const Small: Story = {
   args: {
     size: "sm",
-    title: "Deseja sair?",
-    description: "As alteracoes nao salvas serao perdidas.",
+    showIllustration: false,
+    showGhostButton: false,
   },
 };
 
-export const LargeWithContent: Story = {
+export const Medium: Story = {
+  args: {
+    size: "md",
+    showIllustration: true,
+    showGhostButton: true,
+  },
+};
+
+export const Large: Story = {
   args: {
     size: "lg",
-    title: "Detalhes do contrato",
-    description: "Revise as informacoes antes de prosseguir.",
-    children: (
-      <div>
-        <p>
-          Este contrato define as condicoes de uso do servico, incluindo prazos,
-          metricas e responsabilidades das partes. Recomendamos a leitura completa.
-        </p>
-        <p>
-          Ao continuar, voce confirma que leu e concorda com os termos apresentados.
-        </p>
-      </div>
-    ),
+    showIllustration: true,
+    showGhostButton: true,
+  },
+};
+
+export const ExtraLarge: Story = {
+  args: {
+    size: "xl",
+    showIllustration: true,
+    showGhostButton: true,
   },
 };

@@ -11,10 +11,14 @@ const meta: Meta<typeof Switch> = {
   parameters: {
     layout: "centered",
     chromatic: { viewports: [360, 768, 1200] },
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=349-3231&m=dev",
+    },
     docs: {
       description: {
         component:
-          "Switch oficial do sistema Codex Topaz, seguindo as diretrizes de estados, espaçamentos e alinhamentos fornecidas no Figma.",
+          "Switch oficial do sistema Topaz, implementado conforme o componente do Figma (default, ativo, foco e desabilitado).",
       },
     },
   },
@@ -31,7 +35,7 @@ type Story = StoryObj<typeof Switch>;
 
 export const Default: Story = {};
 
-export const Activated: Story = {
+export const Active: Story = {
   render: (args) => {
     const [checked, setChecked] = useState(true);
     return (
@@ -45,16 +49,23 @@ export const Activated: Story = {
 };
 
 export const Focus: Story = {
-  play: async ({ canvasElement }) => {
+  args: {
+    defaultChecked: true,
+    autoFocus: true,
+  },
+  play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    const input = canvas.getByRole("switch");
-    input.focus();
-    await waitFor(() => expect(input).toHaveFocus());
+    await step("Aplica foco visível no switch", async () => {
+      const input = canvas.getByRole("switch");
+      input.focus();
+      await waitFor(() => expect(input).toHaveFocus());
+    });
   },
 };
 
 export const Disabled: Story = {
   args: {
+    checked: true,
     disabled: true,
     label: "Label",
   },

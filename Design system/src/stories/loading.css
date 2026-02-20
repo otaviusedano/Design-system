@@ -1,0 +1,23 @@
+.storybook-loading {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: rgba(98, 98, 149, 0.1);
+}
+
+.storybook-loading__spinner {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 10px solid var(--color-blue-400);
+  border-right-color: transparent;
+  display: inline-block;
+  animation: storybook-loading-spin 0.9s linear infinite;
+}
+
+@keyframes storybook-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

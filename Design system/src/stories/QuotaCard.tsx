@@ -6,14 +6,15 @@ export interface QuotaCardProps {
   title: string;
   status?: {
     label: string;
-    variant: 'success' | 'error' | 'warning' | 'info';
+    variant: 'purple' | 'sky' | 'water' | 'gray' | 'red';
   };
   values: Array<{
     label: string;
     value: string;
   }>;
   logo?: React.ReactNode;
-  onClick?: () => void;
+  icon?: React.ReactNode;
+  className?: string;
 }
 
 export const QuotaCard = ({
@@ -21,17 +22,21 @@ export const QuotaCard = ({
   status,
   values,
   logo,
-  onClick,
+  icon,
+  className,
 }: QuotaCardProps) => {
+  const iconContent = icon ?? <i className="fa-regular fa-house" aria-hidden="true" />;
+
+  const logoContent = logo ?? (
+    <div className="storybook-quota-card__brand" aria-label="Stefanini Group">
+      <span className="storybook-quota-card__brand-name">stefanini</span>
+      <span className="storybook-quota-card__brand-group">GROUP</span>
+    </div>
+  );
+
   return (
     <article
-      className={[
-        'storybook-quota-card',
-        onClick ? 'storybook-quota-card--clickable' : '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      onClick={onClick}
+      className={['storybook-quota-card', className].filter(Boolean).join(' ')}
     >
       <header className="storybook-quota-card__header">
         <h2 className="storybook-quota-card__title">{title}</h2>
@@ -63,9 +68,10 @@ export const QuotaCard = ({
             </div>
           ))}
         </div>
-        {logo && (
-          <div className="storybook-quota-card__logo">{logo}</div>
-        )}
+        <div className="storybook-quota-card__logo">
+          <div className="storybook-quota-card__icon">{iconContent}</div>
+          {logoContent}
+        </div>
       </div>
     </article>
   );

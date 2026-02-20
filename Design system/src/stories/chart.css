@@ -32,7 +32,7 @@
   justify-content: space-between;
   height: 172px;
   width: 24px;
-  margin-right: 8px;
+  margin-right: 60px;
   color: var(--text-secondary);
   font-size: 10px;
   line-height: 1;
@@ -88,7 +88,7 @@
   grid-template-columns: repeat(12, 1fr);
   align-items: center;
   width: 500px;
-  margin-left: 32px;
+  margin-left: 40px;
   color: var(--text-secondary);
   font-size: 10px;
   line-height: 14px;
@@ -111,7 +111,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 16px;
-  margin-left: 32px;
+  margin-left: 40px;
   max-width: 640px;
 }
 

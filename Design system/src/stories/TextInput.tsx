@@ -1,102 +1,185 @@
-import React, { useMemo, useState } from 'react';
-
 import './text-input.css';
 
+export type TextInputState = 'Default' | 'Focus' | 'Filled' | 'Disabled' | 'Error';
+export type TextInputVariation = 'Default' | 'Price' | 'Percent' | 'Range' | 'Text area';
+
 export interface TextInputProps {
+  className?: string;
   label?: string;
-  placeholder?: string;
-  value?: string;
-  defaultValue?: string;
-  helperText?: string;
+  state?: TextInputState;
+  variation?: TextInputVariation;
   errorText?: string;
-  disabled?: boolean;
-  autoFocus?: boolean;
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
-  multiline?: boolean;
-  rows?: number;
-  type?: React.HTMLInputTypeAttribute;
-  onChange?: (value: string) => void;
+  showIcon?: boolean;
 }
 
-const useControlledValue = (value?: string, defaultValue?: string) => {
-  const [internalValue, setInternalValue] = useState<string>(defaultValue ?? '');
-  const isControlled = useMemo(() => value !== undefined, [value]);
+const EyeSlashIcon = () => (
+  <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+    <path
+      d="M3 3l18 18M10.58 10.58A2 2 0 0012 14a2 2 0 001.41-.58M9.88 5.09A10.94 10.94 0 0112 5c5 0 9.27 3.11 11 7-1.03 2.3-2.86 4.17-5.14 5.31M6.23 6.23C3.9 7.53 2.08 9.58 1 12c.76 1.7 1.91 3.16 3.35 4.27"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
-  const currentValue = isControlled ? (value as string) : internalValue;
+type ValueTone = 'primary' | 'secondary' | 'negative';
 
-  const updateValue = (next: string) => {
-    if (!isControlled) {
-      setInternalValue(next);
+type SingleFieldValue = {
+  content: string;
+  tone: ValueTone;
+  prefix?: string;
+  prefixTone?: ValueTone;
+};
+
+const getLabel = (variation: TextInputVariation, customLabel?: string) => {
+  if (customLabel) return customLabel;
+  if (variation === 'Default') return 'Label';
+  return variation;
+};
+
+const getSingleFieldValue = (
+  state: TextInputState,
+  variation: Exclude<TextInputVariation, 'Range'>,
+): SingleFieldValue => {
+  if (variation === 'Default') {
+    if (state === 'Focus') return { content: '|', tone: 'primary' };
+    if (state === 'Filled') return { content: 'Filled', tone: 'primary' };
+    if (state === 'Error') return { content: 'Filled', tone: 'negative' };
+    if (state === 'Disabled') return { content: 'Disabled', tone: 'secondary' };
+    return { content: 'Placeholder', tone: 'secondary' };
+  }
+
+  if (variation === 'Price') {
+    if (state === 'Focus') return { content: '|', tone: 'primary', prefix: 'R$', prefixTone: 'primary' };
+    if (state === 'Filled') {
+      return { content: '1.000,00', tone: 'primary', prefix: 'R$', prefixTone: 'primary' };
     }
-  };
+    if (state === 'Disabled') {
+      return { content: '1.000,00', tone: 'secondary', prefix: 'R$', prefixTone: 'primary' };
+    }
+    if (state === 'Error') {
+      return { content: '10,00', tone: 'negative', prefix: 'R$', prefixTone: 'negative' };
+    }
+    return { content: '00,00', tone: 'secondary', prefix: 'R$', prefixTone: 'primary' };
+  }
 
-  return { value: currentValue, isControlled, updateValue };
+  if (variation === 'Percent') {
+    if (state === 'Focus') return { content: '|%', tone: 'primary' };
+    if (state === 'Filled') return { content: '10%', tone: 'primary' };
+    if (state === 'Disabled') return { content: '05%', tone: 'secondary' };
+    if (state === 'Error') return { content: '01%', tone: 'negative' };
+    return { content: '00%', tone: 'secondary' };
+  }
+
+  if (state === 'Focus') return { content: '|', tone: 'primary' };
+  if (state === 'Filled') return { content: 'Enter your...', tone: 'primary' };
+  if (state === 'Disabled') return { content: 'Your e-mail...', tone: 'secondary' };
+  if (state === 'Error') return { content: 'placeholder', tone: 'negative' };
+  return { content: 'Placeholder', tone: 'secondary' };
+};
+
+const getRangeText = (state: TextInputState) => {
+  if (state === 'Focus') return ['|', '|'];
+  if (state === 'Filled') return ['10', '100'];
+  if (state === 'Disabled') return ['10', '100'];
+  if (state === 'Error') return ['100', '10'];
+  return ['0', '0'];
 };
 
 export const TextInput = ({
+  className,
   label,
-  placeholder,
-  value,
-  defaultValue,
-  helperText,
-  errorText,
-  disabled,
-  autoFocus,
-  prefix,
-  suffix,
-  multiline,
-  rows = 3,
-  type = 'text',
-  onChange,
+  state = 'Default',
+  variation = 'Default',
+  errorText = 'Error message.',
+  showIcon,
 }: TextInputProps) => {
-  const { value: currentValue, updateValue } = useControlledValue(value, defaultValue);
-  const isError = Boolean(errorText);
+  const isError = state === 'Error';
+  const isDisabled = state === 'Disabled';
+  const isFocused = state === 'Focus';
+  const shouldShowIcon = showIcon ?? variation === 'Default';
+  const singleFieldValue = variation === 'Range' ? null : getSingleFieldValue(state, variation);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateValue(event.target.value);
-    onChange?.(event.target.value);
-  };
+  const rootClassName = [
+    'storybook-text-input',
+    `is-${state.toLowerCase()}`,
+    `is-${variation.toLowerCase().replace(/\s+/g, '-')}`,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  const commonProps = {
-    className: 'storybook-text-input__field',
-    placeholder,
-    disabled,
-    value: currentValue,
-    onChange: handleChange,
-    autoFocus,
-    'aria-invalid': isError,
-  };
+  const fieldClassName = [
+    'storybook-text-input__control',
+    isError ? 'is-error' : '',
+    isDisabled ? 'is-disabled' : '',
+    isFocused || state === 'Filled' ? 'is-filled' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <label
-      className={[
-        'storybook-text-input',
-        isError ? 'is-error' : '',
-        disabled ? 'is-disabled' : '',
-      ].join(' ')}
-    >
-      {label ? <span className="storybook-text-input__label">{label}</span> : null}
-      <div className="storybook-text-input__control">
-        {prefix ? <span className="storybook-text-input__prefix">{prefix}</span> : null}
-        {multiline ? (
-          <textarea
-            {...commonProps}
-            rows={rows}
-            className={`${commonProps.className} storybook-text-input__textarea`}
-          />
-        ) : (
-          <input {...commonProps} type={type} />
-        )}
-        {suffix ? <span className="storybook-text-input__suffix">{suffix}</span> : null}
-      </div>
-      {helperText || errorText ? (
-        <span className="storybook-text-input__helper">{errorText ?? helperText}</span>
-      ) : null}
-      {type === 'range' ? (
-        <span className="storybook-text-input__range-value">{currentValue}</span>
-      ) : null}
-    </label>
+    <div className={rootClassName}>
+      <span className="storybook-text-input__label">{getLabel(variation, label)}</span>
+
+      {variation === 'Range' ? (
+        <div className="storybook-text-input__range">
+          {getRangeText(state).map((value, index) => (
+            <div key={`${value}-${index}`} className={fieldClassName}>
+              <span
+                className={[
+                  'storybook-text-input__value',
+                  isError ? 'is-negative' : '',
+                  isDisabled || state === 'Default' ? 'is-secondary' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                {value}
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className={fieldClassName}>
+          <span
+            className={[
+              'storybook-text-input__value',
+              singleFieldValue?.tone === 'secondary' ? 'is-secondary' : '',
+              singleFieldValue?.tone === 'negative' ? 'is-negative' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {singleFieldValue?.prefix ? (
+              <span
+                className={[
+                  'storybook-text-input__value-prefix',
+                  singleFieldValue.prefixTone === 'negative' ? 'is-negative' : '',
+                  singleFieldValue.prefixTone === 'secondary' ? 'is-secondary' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                {singleFieldValue.prefix}
+              </span>
+            ) : null}
+            {singleFieldValue?.prefix ? ' ' : null}
+            {singleFieldValue?.content}
+          </span>
+          {shouldShowIcon ? (
+            <span className="storybook-text-input__icon" aria-hidden="true">
+              <EyeSlashIcon />
+            </span>
+          ) : null}
+        </div>
+      )}
+
+      {isError ? <span className="storybook-text-input__error">{errorText}</span> : null}
+    </div>
   );
 };
 

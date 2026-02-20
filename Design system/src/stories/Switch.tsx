@@ -7,6 +7,7 @@ export type SwitchProps = {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
+  autoFocus?: boolean;
   onCheckedChange?: (checked: boolean) => void;
 };
 
@@ -16,10 +17,12 @@ export function Switch({
   checked,
   defaultChecked,
   disabled,
+  autoFocus,
   onCheckedChange,
 }: SwitchProps) {
   const autoId = useId();
   const inputId = id ?? `switch-${autoId}`;
+  const [isFocusVisible, setIsFocusVisible] = useState(false);
 
   const isControlled = checked !== undefined;
   const [internalChecked, setInternalChecked] = useState(
@@ -41,10 +44,12 @@ export function Switch({
         "sw-root",
         currentChecked ? "sw-checked" : "",
         disabled ? "sw-disabled" : "",
+        isFocusVisible ? "sw-focus" : "",
       ]
         .filter(Boolean)
         .join(" ")}
       data-state={currentChecked ? "checked" : "unchecked"}
+      data-disabled={disabled ? "true" : "false"}
     >
       <span className="sw-control">
         <input
@@ -55,6 +60,9 @@ export function Switch({
           checked={currentChecked}
           disabled={disabled}
           className="sw-input"
+          autoFocus={autoFocus}
+          onFocus={() => setIsFocusVisible(true)}
+          onBlur={() => setIsFocusVisible(false)}
           onChange={(event) => toggle(event.target.checked)}
         />
         <span className="sw-track" aria-hidden="true">

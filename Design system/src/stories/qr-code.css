@@ -2,19 +2,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 16px;
+  width: min(1200px, 100%);
+  padding: 16px 24px;
   background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  border: 1px solid #e0dcdc;
+  box-sizing: border-box;
   font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.storybook-qrcode__canvas {
+.storybook-qrcode__image {
   display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  border-radius: 4px;
+  width: 300px;
+  height: 300px;
+  border-radius: 8px;
+  object-fit: cover;
 }

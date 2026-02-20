@@ -6,98 +6,44 @@ const meta = {
   title: 'Form/Text Input',
   component: TextInput,
   tags: ['autodocs'],
-  args: {
-    label: 'Label',
-    placeholder: 'Digite aqui...',
-  },
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=72-139&t=cyoEHFuYif50QlIb-4',
+      url: 'https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=72-140&m=dev',
     },
-    layout: 'centered',
+    layout: 'padded',
   },
 } satisfies Meta<typeof TextInput>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const DefaultDefault: Story = { args: { variation: 'Default', state: 'Default' } };
+export const DefaultFocus: Story = { args: { variation: 'Default', state: 'Focus' } };
+export const DefaultFilled: Story = { args: { variation: 'Default', state: 'Filled' } };
+export const DefaultDisabled: Story = { args: { variation: 'Default', state: 'Disabled' } };
+export const DefaultError: Story = { args: { variation: 'Default', state: 'Error' } };
 
-export const Focus: Story = {
-  args: {
-    placeholder: 'Selecione a opção',
-    autoFocus: true,
-  },
-};
+export const PriceDefault: Story = { args: { variation: 'Price', state: 'Default' } };
+export const PriceFocus: Story = { args: { variation: 'Price', state: 'Focus' } };
+export const PriceFilled: Story = { args: { variation: 'Price', state: 'Filled' } };
+export const PriceDisabled: Story = { args: { variation: 'Price', state: 'Disabled' } };
+export const PriceError: Story = { args: { variation: 'Price', state: 'Error' } };
 
-export const Filled: Story = {
-  args: {
-    defaultValue: 'Valor preenchido',
-  },
-};
+export const PercentDefault: Story = { args: { variation: 'Percent', state: 'Default' } };
+export const PercentFocus: Story = { args: { variation: 'Percent', state: 'Focus' } };
+export const PercentFilled: Story = { args: { variation: 'Percent', state: 'Filled' } };
+export const PercentDisabled: Story = { args: { variation: 'Percent', state: 'Disabled' } };
+export const PercentError: Story = { args: { variation: 'Percent', state: 'Error' } };
 
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    placeholder: 'Campo desabilitado',
-  },
-};
+export const RangeDefault: Story = { args: { variation: 'Range', state: 'Default' } };
+export const RangeFocus: Story = { args: { variation: 'Range', state: 'Focus' } };
+export const RangeFilled: Story = { args: { variation: 'Range', state: 'Filled' } };
+export const RangeDisabled: Story = { args: { variation: 'Range', state: 'Disabled' } };
+export const RangeError: Story = { args: { variation: 'Range', state: 'Error' } };
 
-export const Error: Story = {
-  args: {
-    errorText: 'Mensagem de erro',
-    placeholder: 'Campo com erro',
-  },
-};
-
-export const Price: Story = {
-  args: {
-    label: 'Price',
-    prefix: 'R$',
-    placeholder: '0,00',
-  },
-};
-
-export const Percent: Story = {
-  args: {
-    label: 'Percent',
-    suffix: '%',
-    placeholder: '0',
-  },
-};
-
-export const Range: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 320 }}>
-      <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>Range</span>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <TextInput placeholder="Ex: 1" aria-label="Valor mínimo" />
-        <TextInput placeholder="Ex: 99" aria-label="Valor máximo" />
-      </div>
-    </div>
-  ),
-};
-
-export const TextArea: Story = {
-  args: {
-    label: 'Text area',
-    multiline: true,
-    rows: 4,
-    placeholder: 'Escreva sua mensagem...',
-  },
-};
-
-export const LayoutExamples: Story = {
-  render: () => (
-    <div style={{ display: 'grid', gap: 12, width: 340 }}>
-      <TextInput label="Horizontal" prefix="R$" placeholder="Ex: 123,45" />
-      <TextInput label="Altitude" suffix="m" placeholder="Altitude" />
-      <TextInput label="Margem" suffix="px" placeholder="Ex: 16" />
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <TextInput label="Largura" placeholder="L" />
-        <TextInput label="Altura" placeholder="A" />
-      </div>
-    </div>
-  ),
-};
+export const TextAreaDefault: Story = { args: { variation: 'Text area', state: 'Default' } };
+export const TextAreaFocus: Story = { args: { variation: 'Text area', state: 'Focus' } };
+export const TextAreaFilled: Story = { args: { variation: 'Text area', state: 'Filled' } };
+export const TextAreaDisabled: Story = { args: { variation: 'Text area', state: 'Disabled' } };
+export const TextAreaError: Story = { args: { variation: 'Text area', state: 'Error' } };

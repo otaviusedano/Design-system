@@ -13,13 +13,6 @@ const meta = {
     },
     layout: 'centered',
   },
-  argTypes: {
-    placement: {
-      control: 'select',
-      options: ['top', 'bottom', 'left', 'right'],
-    },
-    disabled: { control: 'boolean' },
-  },
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
@@ -27,54 +20,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    content: 'Texto do tooltip',
-    placement: 'top',
-    children: (
-      <button type="button">
-        Passe o mouse
-      </button>
-    ),
+    message: 'Mensagem do tooltip.',
   },
 };
 
-export const Bottom: Story = {
+export const TextoLongo: Story = {
   args: {
-    content: 'Tooltip abaixo do elemento',
-    placement: 'bottom',
-    children: (
-      <span style={{ textDecoration: 'underline', cursor: 'default' }}>
-        Trigger
-      </span>
-    ),
-  },
-};
-
-export const Left: Story = {
-  args: {
-    content: 'À esquerda',
-    placement: 'left',
-    children: (
-      <button type="button">Trigger</button>
-    ),
-  },
-};
-
-export const Right: Story = {
-  args: {
-    content: 'À direita',
-    placement: 'right',
-    children: (
-      <button type="button">Trigger</button>
-    ),
-  },
-};
-
-export const LongContent: Story = {
-  args: {
-    content: 'Este é um tooltip com conteúdo mais longo para demonstrar quebra de linha quando o texto excede a largura máxima.',
-    placement: 'top',
-    children: (
-      <button type="button">Hover para ver</button>
-    ),
+    message: 'Este tooltip segue o padrão visual do design system e suporta quebra de linha em mensagens maiores.',
   },
 };

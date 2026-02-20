@@ -14,13 +14,15 @@ const meta = {
   tags: ['autodocs'],
   args: {
     label: 'Label',
-    placeholder: 'Selecione a opção',
+    placeholder: 'Select...',
     options: baseOptions,
+    state: 'Default',
+    showIcon: true,
   },
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=72-139&t=cyoEHFuYif50QlIb-4',
+      url: 'https://www.figma.com/design/X3O3uFqKk8ITqBc9CmTe8l/Design-System---Topaz?node-id=206-2689&m=dev',
     },
     layout: 'centered',
   },
@@ -33,37 +35,46 @@ export const Default: Story = {};
 
 export const Focus: Story = {
   args: {
-    autoFocus: true,
+    state: 'Focus',
   },
 };
 
 export const Filled: Story = {
   args: {
-    defaultValue: '2',
+    state: 'Filled',
+    value: '2',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    disabled: true,
+    state: 'Disabled',
   },
 };
 
 export const Error: Story = {
   args: {
-    errorText: 'Mensagem de erro',
+    state: 'Error',
+    value: '2',
+    errorText: 'Error message.',
   },
 };
 
-export const LayoutExamples: Story = {
+export const FigmaPreview: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 12, width: 360 }}>
-      <Select label="Horizontal" options={baseOptions} />
-      <Select label="Altura" options={baseOptions} />
-      <div style={{ display: 'flex', gap: 8 }}>
-        <Select label="Margem" options={baseOptions} />
-        <Select label="Preenchimento" options={baseOptions} />
-      </div>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 328px)',
+        gap: 28,
+        alignItems: 'start',
+      }}
+    >
+      <Select state="Default" options={baseOptions} />
+      <Select state="Focus" options={baseOptions} />
+      <Select state="Filled" value="2" options={baseOptions} />
+      <Select state="Disabled" options={baseOptions} />
+      <Select state="Error" value="2" errorText="Error message." options={baseOptions} />
     </div>
   ),
 };

@@ -1,96 +1,124 @@
 .storybook-text-input {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: flex-start;
+  gap: 8px;
+  width: 360px;
+  min-width: 312px;
   color: var(--text-primary);
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Montserrat, "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .storybook-text-input__label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text-primary);
 }
 
 .storybook-text-input__control {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 40px;
+  border: 1px solid var(--border-secondary);
+  border-radius: 4px;
+  background: var(--surface-secondary);
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
-  border: 1px solid var(--border-secondary);
-  background: var(--surface-secondary);
-  border-radius: 6px;
-  padding: 10px 12px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  padding: 12px;
 }
 
-.storybook-text-input__field {
-  width: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
+.storybook-text-input__value {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 1px;
   font-size: 14px;
+  line-height: 16px;
+  font-weight: 400;
   color: var(--text-primary);
 }
 
-.storybook-text-input__field::placeholder {
+.storybook-text-input__value.is-secondary {
   color: var(--text-secondary);
 }
 
-.storybook-text-input__prefix,
-.storybook-text-input__suffix {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  white-space: nowrap;
-}
-
-.storybook-text-input:focus-within .storybook-text-input__control {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 1px var(--border-focus);
-}
-
-.storybook-text-input.is-error .storybook-text-input__control {
-  border-color: var(--border-negative);
-  box-shadow: 0 0 0 3px color-mix(
-      in srgb,
-      var(--border-negative),
-      transparent 78%
-    );
-  background: color-mix(
-      in srgb,
-      var(--surface-primary),
-      var(--text-negative) 10%
-    );
-}
-
-.storybook-text-input.is-disabled .storybook-text-input__control {
-  background: var(--surface-disabled);
-  color: var(--text-secondary);
-  border-color: var(--border-secondary);
-  cursor: not-allowed;
-}
-
-.storybook-text-input.is-disabled .storybook-text-input__field {
-  color: var(--text-secondary);
-  cursor: not-allowed;
-}
-
-.storybook-text-input__helper {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.storybook-text-input.is-error .storybook-text-input__helper {
+.storybook-text-input__value.is-negative {
   color: var(--text-negative);
 }
 
-.storybook-text-input__textarea {
-  resize: vertical;
-  min-height: 80px;
+.storybook-text-input__value-prefix {
+  color: var(--text-primary);
 }
 
-.storybook-text-input__range-value {
-  font-size: 12px;
-  color: var(--text-primary);
-  font-weight: 700;
+.storybook-text-input__value-prefix.is-secondary {
+  color: var(--text-secondary);
+}
+
+.storybook-text-input__value-prefix.is-negative {
+  color: var(--text-negative);
+}
+
+.storybook-text-input__icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  color: var(--icon-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storybook-text-input__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.storybook-text-input .storybook-text-input__control.is-filled,
+.storybook-text-input.is-filled .storybook-text-input__control {
+  border-color: var(--border-filled);
+}
+
+.storybook-text-input.is-disabled .storybook-text-input__control,
+.storybook-text-input .storybook-text-input__control.is-disabled {
+  border-color: transparent;
+  background: var(--surface-disabled);
+  cursor: not-allowed;
+}
+
+.storybook-text-input.is-disabled .storybook-text-input__value {
+  color: var(--text-secondary);
+}
+
+.storybook-text-input.is-error .storybook-text-input__control,
+.storybook-text-input .storybook-text-input__control.is-error {
+  border-color: var(--border-negative);
+}
+
+.storybook-text-input.is-error .storybook-text-input__value {
+  color: var(--text-negative);
+}
+
+.storybook-text-input.is-text-area .storybook-text-input__control {
+  min-height: 80px;
+  align-items: flex-start;
+}
+
+.storybook-text-input__range {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.storybook-text-input__range .storybook-text-input__control {
+  flex: 1 1 0;
+}
+
+.storybook-text-input__error {
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text-negative);
 }

@@ -1,330 +1,333 @@
-import "./chart.css";
-import { useRef, useState } from "react";
-import type { MouseEvent } from "react";
+import './chart.css';
 
-type ChartKind = "line" | "bar" | "circle";
-type ChartVariation = "simple" | "type" | "multi" | "multi-type";
-type ChartSize = "default" | "sm" | "md";
+type ChartVariation = 'simple' | 'multi' | 'type' | 'multi-type';
+type ChartType = 'bar' | 'line' | 'circle';
+type ChartSize = 'default' | 'sm' | 'md';
 
-type ChartSeries = {
-  name: string;
+type LegendItem = {
+  label: string;
   color: string;
-  values: number[];
 };
 
-const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-const Y_AXIS = [30, 25, 20, 15, 10, 5, 0];
+const MONTHS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+const AXIS_STEPS = ['30%', '25%', '20%', '15%', '10%', '5%', '0'];
+const CHART_COLORS = {
+  green: '#56f56c',
+  red: '#f34040',
+  blue: '#626295',
+  skyBlue: '#4dd9ff',
+  purple: '#9864e2',
+};
 
-export type ChartProps = {
+const SIMPLE_BARS = [22, 16, 12, 18, 21, 14, 9, 11, 5, 13, 16, 22];
+const SIMPLE_LINE = [13, 21, 24, 18, 12, 10, 9, 11, 14, 15, 15, 16];
+
+const TYPE_BAR_MAIN = [13, 9, 7, 11, 13, 8, 5, 7, 2, 8, 10, 14];
+const TYPE_BAR_SECONDARY = [4, 4, 3, 4, 4, 3, 2, 2, 1, 3, 4, 4];
+const TYPE_BAR_TERTIARY = [5, 4, 4, 6, 6, 4, 3, 3, 2, 4, 4, 6];
+
+const MULTI_BAR_GREEN = [24, 26, 28, 25, 29, 26, 28, 25, 29, 26, 28, 25];
+const MULTI_BAR_RED = [4, 4, 5, 3, 4, 4, 3, 3, 4, 3, 4, 3];
+
+const MULTI_TYPE_SERIES = [
+  [10, 16, 21, 16, 12, 8, 7, 8, 9, 10, 11, 12],
+  [8, 8, 7, 7, 6, 6, 5, 5, 5, 6, 7, 8],
+  [3, 4, 6, 4, 3, 2, 2, 2, 3, 4, 5, 4],
+  [2, 2, 3, 2, 1, 1, 1, 1, 1, 2, 2, 2],
+];
+
+export interface ChartProps {
   className?: string;
   variation?: ChartVariation;
-  type?: ChartKind;
+  type?: ChartType;
   size?: ChartSize;
   showLegend?: boolean;
   withInfoRight?: boolean;
-};
-
-function getSeries(variation: ChartVariation, type: ChartKind): ChartSeries[] {
-  if (type === "circle") {
-    return [
-      { name: "Item 1", color: "#56F56C", values: [32] },
-      { name: "Item 2", color: "#626295", values: [16] },
-      { name: "Item 3", color: "#4DD9FF", values: [20] },
-      { name: "Item 4", color: "#F34040", values: [10] },
-      { name: "Item 5", color: "#9864E2", values: [22] },
-    ];
-  }
-
-  if (variation === "simple") {
-    return [
-      {
-        name: "Item 1",
-        color: "#56F56C",
-        values: [18, 14, 10, 17, 20, 15, 9, 11, 5, 13, 16, 21],
-      },
-    ];
-  }
-
-  if (variation === "type") {
-    return [
-      {
-        name: "Item 1",
-        color: "#56F56C",
-        values: [16, 11, 9, 14, 17, 12, 8, 10, 4, 9, 12, 16],
-      },
-      {
-        name: "Item 2",
-        color: "#F34040",
-        values: [4, 4, 4, 4, 5, 4, 3, 3, 2, 3, 4, 4],
-      },
-    ];
-  }
-
-  if (variation === "multi") {
-    return [
-      {
-        name: "Item 1",
-        color: "#56F56C",
-        values: [16, 11, 9, 14, 17, 12, 8, 10, 4, 9, 12, 16],
-      },
-      {
-        name: "Item 2",
-        color: "#F34040",
-        values: [4, 4, 4, 4, 5, 4, 3, 3, 2, 3, 4, 4],
-      },
-      {
-        name: "Item 3",
-        color: "#626295",
-        values: [6, 4, 3, 5, 6, 4, 3, 4, 1, 4, 5, 6],
-      },
-    ];
-  }
-
-  return [
-    {
-      name: "Item 1",
-      color: "#56F56C",
-      values: [12, 18, 23, 16, 9, 8, 11, 14, 18, 19, 20, 22],
-    },
-    {
-      name: "Item 2",
-      color: "#F34040",
-      values: [6, 7, 7, 6, 5, 4, 4, 5, 6, 6, 6, 6],
-    },
-    {
-      name: "Item 3",
-      color: "#626295",
-      values: [4, 5, 6, 8, 11, 12, 13, 12, 11, 10, 9, 8],
-    },
-    {
-      name: "Item 4",
-      color: "#4DD9FF",
-      values: [1, 1, 2, 2, 3, 5, 6, 7, 6, 4, 3, 2],
-    },
-  ];
+  showPart1?: boolean;
+  showPart2?: boolean;
+  showPart3?: boolean;
+  showPart4?: boolean;
+  showPart6?: boolean;
 }
 
-function toPath(points: Array<{ x: number; y: number }>) {
-  if (!points.length) return "";
-
+const createSmoothPath = (points: Array<{ x: number; y: number }>) => {
+  if (points.length < 2) return '';
   let path = `M ${points[0].x} ${points[0].y}`;
+
   for (let index = 0; index < points.length - 1; index += 1) {
     const current = points[index];
     const next = points[index + 1];
-    const cp1x = current.x + (next.x - current.x) / 3;
-    const cp2x = current.x + ((next.x - current.x) * 2) / 3;
-    path += ` C ${cp1x} ${current.y}, ${cp2x} ${next.y}, ${next.x} ${next.y}`;
+    const controlX1 = current.x + (next.x - current.x) / 3;
+    const controlX2 = current.x + ((next.x - current.x) * 2) / 3;
+    path += ` C ${controlX1} ${current.y}, ${controlX2} ${next.y}, ${next.x} ${next.y}`;
   }
+
   return path;
-}
+};
 
-function arcPath(cx: number, cy: number, radius: number, startAngle: number, endAngle: number) {
-  const startRad = (startAngle * Math.PI) / 180;
-  const endRad = (endAngle * Math.PI) / 180;
+const buildLegend = (
+  items: LegendItem[],
+  toggles: Pick<ChartProps, 'showPart1' | 'showPart2' | 'showPart3' | 'showPart4' | 'showPart6'>,
+) => {
+  const { showPart1 = true, showPart2 = true, showPart3 = true, showPart4 = true, showPart6 = true } = toggles;
+  const visibility = [true, showPart1, showPart2, showPart6, showPart4, showPart3];
+  return items.filter((_, index) => visibility[index] ?? true);
+};
 
-  const x1 = cx + radius * Math.cos(startRad);
-  const y1 = cy + radius * Math.sin(startRad);
-  const x2 = cx + radius * Math.cos(endRad);
-  const y2 = cy + radius * Math.sin(endRad);
-  const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+const Legend = ({ items, center = false }: { items: LegendItem[]; center?: boolean }) => (
+  <div className={['chart-legend', center ? 'chart-legend-center' : ''].filter(Boolean).join(' ')}>
+    {items.map((item) => (
+      <div key={item.label} className="chart-legend-item">
+        <span className="chart-legend-swatch" style={{ backgroundColor: item.color }} />
+        <span>{item.label}</span>
+      </div>
+    ))}
+  </div>
+);
 
-  return `M ${cx} ${cy} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2} Z`;
-}
+const PieChart = ({ size = 'md' }: { size: ChartSize }) => {
+  const pieSize = size === 'sm' ? 180 : 240;
+  const center = pieSize / 2;
+  const radius = pieSize / 2 - 8;
+  const values = [29, 22, 19, 8, 6];
+  const colors = [CHART_COLORS.green, CHART_COLORS.blue, CHART_COLORS.skyBlue, CHART_COLORS.red, CHART_COLORS.purple];
+  const total = values.reduce((sum, value) => sum + value, 0);
+  let startAngle = -90;
 
-export function Chart({
-  className,
-  variation = "simple",
-  type = "bar",
-  size = "default",
-  showLegend = true,
-  withInfoRight = true,
-}: ChartProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [hoveredMonthIndex, setHoveredMonthIndex] = useState<number | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
+  return (
+    <svg className="chart-svg" width={pieSize} height={pieSize} viewBox={`0 0 ${pieSize} ${pieSize}`}>
+      {values.map((value, index) => {
+        const arc = (value / total) * 360;
+        const endAngle = startAngle + arc;
+        const startRad = (Math.PI * startAngle) / 180;
+        const endRad = (Math.PI * endAngle) / 180;
+        const x1 = center + radius * Math.cos(startRad);
+        const y1 = center + radius * Math.sin(startRad);
+        const x2 = center + radius * Math.cos(endRad);
+        const y2 = center + radius * Math.sin(endRad);
+        const largeArc = arc > 180 ? 1 : 0;
+        const path = `M ${center} ${center} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2} Z`;
+        startAngle = endAngle;
 
-  const series = getSeries(variation, type);
-  const isCircle = type === "circle";
-  const chartWidth = variation === "multi" || variation === "multi-type" ? 640 : 500;
-  const chartHeight = 172;
-  const innerWidth = chartWidth - 58;
-  const innerHeight = 136;
-  const xStep = innerWidth / (MONTHS.length - 1);
-  const yForValue = (value: number) => chartHeight - (value / 30) * innerHeight;
+        return <path key={`slice-${index}`} d={path} fill={colors[index]} />;
+      })}
+    </svg>
+  );
+};
 
-  if (isCircle) {
-    const sizePx = size === "sm" ? 180 : 240;
-    const radius = size === "sm" ? 84 : 112;
-    const center = sizePx / 2;
-    const total = series.reduce((sum, item) => sum + item.values[0], 0);
-    let currentAngle = -90;
+const CartesianChart = ({
+  variation,
+  type,
+}: {
+  variation: ChartVariation;
+  type: Exclude<ChartType, 'circle'>;
+}) => {
+  const width = 500;
+  const height = 172;
+  const paddingTop = 4;
+  const paddingBottom = 6;
+  const maxValue = 30;
+  const baseline = height - paddingBottom;
+  const plotHeight = height - paddingTop - paddingBottom;
+  const getX = (index: number) => (index * width) / (MONTHS.length - 1);
+  const getY = (value: number) => baseline - (value / maxValue) * plotHeight;
+
+  const gridLines = AXIS_STEPS.map((step, index) => {
+    const value = (AXIS_STEPS.length - 1 - index) * 5;
+    return (
+      <line
+        key={`grid-${step}`}
+        className="chart-grid"
+        x1={0}
+        y1={getY(value)}
+        x2={width}
+        y2={getY(value)}
+      />
+    );
+  });
+
+  if (type === 'bar' && variation === 'simple') {
+    const barWidth = 22;
+    return (
+      <svg className="chart-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        {gridLines}
+        {SIMPLE_BARS.map((value, index) => (
+          <rect
+            key={`bar-simple-${index}`}
+            x={getX(index) - barWidth / 2}
+            y={getY(value)}
+            width={barWidth}
+            height={baseline - getY(value)}
+            rx={4}
+            fill={CHART_COLORS.green}
+          />
+        ))}
+      </svg>
+    );
+  }
+
+  if (type === 'bar' && variation === 'multi') {
+    const columnWidth = 26;
+    const barWidth = 10;
+    return (
+      <svg className="chart-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        {gridLines}
+        {MONTHS.map((month, index) => {
+          const x = getX(index) - columnWidth / 2;
+          return (
+            <g key={`bar-multi-${month}`}>
+              <rect
+                x={x}
+                y={getY(MULTI_BAR_GREEN[index])}
+                width={barWidth}
+                height={baseline - getY(MULTI_BAR_GREEN[index])}
+                rx={3}
+                fill={CHART_COLORS.green}
+              />
+              <rect
+                x={x + barWidth + 6}
+                y={getY(MULTI_BAR_RED[index])}
+                width={barWidth}
+                height={baseline - getY(MULTI_BAR_RED[index])}
+                rx={3}
+                fill={CHART_COLORS.red}
+              />
+            </g>
+          );
+        })}
+      </svg>
+    );
+  }
+
+  if (type === 'bar') {
+    const barWidth = 24;
+    return (
+      <svg className="chart-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        {gridLines}
+        {MONTHS.map((month, index) => {
+          const x = getX(index) - barWidth / 2;
+          const red = TYPE_BAR_SECONDARY[index];
+          const blue = TYPE_BAR_TERTIARY[index];
+          const green = TYPE_BAR_MAIN[index];
+          const redY = getY(red);
+          const blueY = getY(red + blue);
+          const greenY = getY(red + blue + green);
+          return (
+            <g key={`bar-type-${month}`}>
+              <rect x={x} y={redY} width={barWidth} height={baseline - redY} fill={CHART_COLORS.red} rx={3} />
+              <rect x={x} y={blueY} width={barWidth} height={redY - blueY} fill={CHART_COLORS.blue} rx={3} />
+              <rect x={x} y={greenY} width={barWidth} height={blueY - greenY} fill={CHART_COLORS.green} rx={3} />
+            </g>
+          );
+        })}
+      </svg>
+    );
+  }
+
+  if (type === 'line' && variation === 'multi-type') {
+    const colors = [CHART_COLORS.green, CHART_COLORS.blue, CHART_COLORS.skyBlue, CHART_COLORS.red];
+    const stacked = MONTHS.map((_, index) =>
+      MULTI_TYPE_SERIES.reduce<number[]>((acc, series, seriesIndex) => {
+        const prev = acc[seriesIndex - 1] ?? 0;
+        acc.push(prev + series[index]);
+        return acc;
+      }, []),
+    );
 
     return (
-      <div className={["chart-root", "chart-circle-layout", className ?? ""].filter(Boolean).join(" ")}>
-        <div className={["chart-circle-content", withInfoRight ? "chart-circle-content-row" : ""].join(" ")}>
-          <svg width={sizePx} height={sizePx} viewBox={`0 0 ${sizePx} ${sizePx}`} className="chart-svg">
-            {series.map((slice, index) => {
-              const angle = (slice.values[0] / total) * 360;
-              const path = arcPath(center, center, radius, currentAngle, currentAngle + angle);
-              currentAngle += angle;
-              return <path key={`${slice.name}-${index}`} d={path} fill={slice.color} />;
-            })}
-          </svg>
-          {showLegend && (
-            <div className={["chart-legend", withInfoRight ? "chart-legend-column" : "chart-legend-center"].join(" ")}>
-              {series.map((item) => (
-                <div key={item.name} className="chart-legend-item">
-                  <span className="chart-legend-swatch" style={{ backgroundColor: item.color }} />
-                  <span>{item.name}</span>
-                </div>
-              ))}
-            </div>
-          )}
+      <svg className="chart-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        {gridLines}
+        {colors.map((color, seriesIndex) => {
+          const topPoints = stacked.map((values, index) => ({ x: getX(index), y: getY(values[seriesIndex]) }));
+          const bottomPoints =
+            seriesIndex === 0
+              ? stacked.map((_, index) => ({ x: getX(index), y: baseline }))
+              : stacked.map((values, index) => ({ x: getX(index), y: getY(values[seriesIndex - 1]) }));
+          const topPath = createSmoothPath(topPoints);
+          const bottomPath = createSmoothPath([...bottomPoints].reverse());
+          return <path key={`area-${color}`} d={`${topPath} L ${bottomPath.slice(2)} Z`} fill={color} opacity={0.95} />;
+        })}
+      </svg>
+    );
+  }
+
+  const lineValues = type === 'line' && variation === 'type' ? TYPE_BAR_MAIN.map((value, index) => value + TYPE_BAR_SECONDARY[index]) : SIMPLE_LINE;
+  const points = lineValues.map((value, index) => ({ x: getX(index), y: getY(value) }));
+  const linePath = createSmoothPath(points);
+  const areaPath = `${linePath} L ${getX(MONTHS.length - 1)} ${baseline} L 0 ${baseline} Z`;
+
+  return (
+    <svg className="chart-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+      {gridLines}
+      <path d={areaPath} fill={CHART_COLORS.green} opacity={0.22} />
+      <path d={linePath} fill="none" stroke={CHART_COLORS.green} strokeWidth={3} />
+    </svg>
+  );
+};
+
+export const Chart = ({
+  className,
+  variation = 'simple',
+  type = 'bar',
+  size = 'default',
+  showLegend = true,
+  withInfoRight = true,
+  showPart1 = true,
+  showPart2 = true,
+  showPart3 = true,
+  showPart4 = true,
+  showPart6 = true,
+}: ChartProps) => {
+  const legendItems = buildLegend(
+    [
+      { label: 'Item 1', color: CHART_COLORS.green },
+      { label: 'Item 2', color: CHART_COLORS.red },
+      { label: 'Item 3', color: CHART_COLORS.blue },
+      { label: 'Item 4', color: CHART_COLORS.skyBlue },
+      { label: 'Item 5', color: CHART_COLORS.purple },
+    ],
+    { showPart1, showPart2, showPart3, showPart4, showPart6 },
+  );
+
+  if (type === 'circle') {
+    return (
+      <div className={['chart-root', 'chart-circle-layout', className].filter(Boolean).join(' ')}>
+        <div className={['chart-circle-content', withInfoRight ? 'chart-circle-content-row' : ''].join(' ')}>
+          <PieChart size={size} />
+          {showLegend ? <Legend items={legendItems} center={!withInfoRight} /> : null}
         </div>
       </div>
     );
   }
 
-  const stackedSums = MONTHS.map((_, monthIndex) =>
-    series.reduce((sum, item) => sum + item.values[monthIndex], 0),
-  );
-  const isBarMode = type === "bar" && variation !== "multi-type";
-
-  function handleBarHover(monthIndex: number, event: MouseEvent<SVGRectElement>) {
-    const rootBounds = rootRef.current?.getBoundingClientRect();
-    if (!rootBounds) return;
-
-    setHoveredMonthIndex(monthIndex);
-    setTooltipPosition({
-      x: event.clientX - rootBounds.left + 8,
-      y: event.clientY - rootBounds.top - 12,
-    });
-  }
+  const wide = variation === 'multi';
+  const plotLegend =
+    variation === 'simple'
+      ? legendItems.slice(0, 1)
+      : variation === 'multi'
+      ? legendItems.slice(0, 2)
+      : variation === 'multi-type'
+      ? legendItems.slice(0, 4)
+      : withInfoRight
+      ? legendItems.slice(0, 4)
+      : legendItems.slice(0, 2);
 
   return (
-    <div
-      ref={rootRef}
-      className={[
-        "chart-root",
-        chartWidth === 640 ? "chart-root-wide" : "",
-        className ?? "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-    >
+    <div className={['chart-root', wide ? 'chart-root-wide' : '', className].filter(Boolean).join(' ')}>
       <div className="chart-plot-wrap">
         <div className="chart-y-axis">
-          {Y_AXIS.map((tick) => (
-            <span key={tick}>{tick}%</span>
+          {AXIS_STEPS.map((step) => (
+            <span key={step}>{step}</span>
           ))}
         </div>
-        <svg width={chartWidth} height={chartHeight} viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="chart-svg">
-          {Y_AXIS.map((tick) => {
-            const y = yForValue(tick);
-            return <line key={tick} x1={0} y1={y} x2={chartWidth} y2={y} className="chart-grid" />;
-          })}
-
-          {type === "bar" && variation !== "multi-type" &&
-            MONTHS.map((month, monthIndex) => {
-              const barWidth = variation === "multi" ? 28 : 24;
-              const x = monthIndex * xStep - barWidth / 2;
-              let accumulatedHeight = 0;
-
-              return (
-                <g key={month}>
-                  {series.map((item, index) => {
-                    const value = item.values[monthIndex];
-                    const pixelHeight = (value / 30) * innerHeight;
-                    const y = chartHeight - accumulatedHeight - pixelHeight;
-                    accumulatedHeight += pixelHeight;
-                    return (
-                      <rect
-                        key={`${month}-${item.name}`}
-                        x={x}
-                        y={y}
-                        width={barWidth}
-                        height={pixelHeight}
-                        rx={index === series.length - 1 ? 4 : 0}
-                        fill={item.color}
-                        onMouseEnter={(event) => handleBarHover(monthIndex, event)}
-                        onMouseMove={(event) => handleBarHover(monthIndex, event)}
-                        onMouseLeave={() => {
-                          setHoveredMonthIndex(null);
-                          setTooltipPosition(null);
-                        }}
-                      />
-                    );
-                  })}
-                  {withInfoRight && variation === "simple" && (
-                    <text x={monthIndex * xStep} y={yForValue(stackedSums[monthIndex]) - 6} className="chart-top-value">
-                      {Math.round((stackedSums[monthIndex] / 30) * 100)}%
-                    </text>
-                  )}
-                </g>
-              );
-            })}
-
-          {(type === "line" || variation === "multi-type") &&
-            series.map((item) => {
-              const points = item.values.map((value, index) => ({
-                x: index * xStep,
-                y: yForValue(value),
-              }));
-              const linePath = toPath(points);
-              const lastPoint = points[points.length - 1];
-              const firstPoint = points[0];
-              const areaPath = `${linePath} L ${lastPoint?.x ?? 0} ${chartHeight} L ${firstPoint?.x ?? 0} ${chartHeight} Z`;
-
-              return (
-                <g key={item.name}>
-                  <path d={areaPath} fill={item.color} fillOpacity={variation === "multi-type" ? 0.9 : 0.3} />
-                  <path d={linePath} fill="none" stroke={item.color} strokeWidth={variation === "multi-type" ? 1 : 3} />
-                </g>
-              );
-            })}
-        </svg>
+        <CartesianChart variation={variation} type={type === 'circle' ? 'bar' : type} />
       </div>
-
       <div className="chart-months">
         {MONTHS.map((month) => (
           <span key={month}>{month}</span>
         ))}
       </div>
-
-      {showLegend && (
-        <div className="chart-legend">
-          {series.map((item) => (
-            <div key={item.name} className="chart-legend-item">
-              <span className="chart-legend-swatch" style={{ backgroundColor: item.color }} />
-              <span>{item.name}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {isBarMode && hoveredMonthIndex !== null && tooltipPosition && (
-        <div
-          className="chart-tooltip"
-          style={{
-            left: tooltipPosition.x,
-            top: tooltipPosition.y,
-          }}
-        >
-          <div className="chart-tooltip-title">{MONTHS[hoveredMonthIndex]}</div>
-          <div className="chart-tooltip-list">
-            {series.map((item) => (
-              <div key={`${item.name}-${hoveredMonthIndex}`} className="chart-tooltip-item">
-                <span className="chart-legend-swatch" style={{ backgroundColor: item.color }} />
-                <span>{item.name}</span>
-                <strong>{item.values[hoveredMonthIndex]}%</strong>
-              </div>
-            ))}
-          </div>
-          <div className="chart-tooltip-total">
-            Total: <strong>{stackedSums[hoveredMonthIndex]}%</strong>
-          </div>
-        </div>
-      )}
+      {showLegend ? <Legend items={plotLegend} /> : null}
     </div>
   );
-}
+};

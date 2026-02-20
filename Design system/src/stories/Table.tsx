@@ -1,258 +1,277 @@
-import React, { useState } from 'react';
+import './Table.css';
 
-import './table.css';
+type StatusTone = 'success' | 'info';
 
-export interface TableColumn<T = any> {
-  key: string;
-  header: string;
-  accessor?: (row: T) => React.ReactNode;
-  align?: 'left' | 'center' | 'right';
-  width?: number | string;
-  sortable?: boolean;
-}
-
-export interface TableRow<T = any> {
+export interface TableRow {
   id: string;
-  data: T;
-  selected?: boolean;
-  highlighted?: boolean;
-  disabled?: boolean;
+  selected: boolean;
+  status: {
+    label: string;
+    tone: StatusTone;
+  };
+  client: {
+    name: string;
+    document: string;
+  };
+  number: string;
+  product: {
+    name: string;
+    subtitle: string;
+  };
+  header1: string;
+  header2: string;
+  header3: string;
 }
 
-export interface TableProps<T = any> {
-  columns: TableColumn<T>[];
-  rows: TableRow<T>[];
-  caption?: string;
-  showCheckbox?: boolean;
-  showActions?: boolean;
-  footer?: React.ReactNode;
-  emptyMessage?: string;
-  onRowClick?: (row: TableRow<T>, index: number) => void;
-  onSelectAll?: (selected: boolean) => void;
-  onSelectRow?: (rowId: string, selected: boolean) => void;
-  onSort?: (columnKey: string, direction: 'asc' | 'desc') => void;
-  sortColumn?: string;
-  sortDirection?: 'asc' | 'desc';
+export interface TableProps {
+  className?: string;
+  rows?: TableRow[];
+  total?: number;
+  showColumn1?: boolean;
+  showColumn2?: boolean;
+  showColumn3?: boolean;
+  showColumn4?: boolean;
+  showColumn5?: boolean;
+  showColumn6?: boolean;
 }
 
-const resolveSizeValue = (value?: number | string) => {
-  if (value === undefined) return undefined;
-  return typeof value === 'number' ? `${value}px` : value;
-};
+const defaultRows: TableRow[] = [
+  {
+    id: 'row-1',
+    selected: false,
+    status: { label: 'Quitado', tone: 'success' },
+    client: { name: 'Nome do cliente', document: 'CPF ou CNPJ' },
+    number: '10984',
+    product: { name: 'Nome do produto', subtitle: 'Nome do plano' },
+    header1: 'Text cell',
+    header2: 'Text cell',
+    header3: 'Text cell',
+  },
+  {
+    id: 'row-2',
+    selected: true,
+    status: { label: 'Em andamento', tone: 'info' },
+    client: { name: 'Nome do cliente', document: 'CPF ou CNPJ' },
+    number: '103939041',
+    product: { name: 'Nome do produto', subtitle: 'Nome do plano' },
+    header1: 'Text cell',
+    header2: 'Text cell',
+    header3: 'Text cell',
+  },
+];
 
-export const Table = <T,>({
-  columns,
-  rows,
-  caption,
-  showCheckbox = false,
-  showActions = false,
-  footer,
-  emptyMessage = 'Sem dados para exibir',
-  onRowClick,
-  onSelectAll,
-  onSelectRow,
-  onSort,
-  sortColumn,
-  sortDirection,
-}: TableProps<T>) => {
-  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
+const joinClass = (...classes: Array<string | false | undefined>) =>
+  classes.filter(Boolean).join(' ');
 
-  const isEmpty = rows.length === 0;
-  const allSelected = rows.length > 0 && selectedRows.size === rows.length;
-  const someSelected = selectedRows.size > 0 && selectedRows.size < rows.length;
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      const allIds = new Set(rows.map((row) => row.id));
-      setSelectedRows(allIds);
-      onSelectAll?.(true);
-    } else {
-      setSelectedRows(new Set());
-      onSelectAll?.(false);
-    }
-  };
-
-  const handleSelectRow = (rowId: string, checked: boolean) => {
-    const newSelected = new Set(selectedRows);
-    if (checked) {
-      newSelected.add(rowId);
-    } else {
-      newSelected.delete(rowId);
-    }
-    setSelectedRows(newSelected);
-    onSelectRow?.(rowId, checked);
-  };
-
-  const handleSort = (columnKey: string) => {
-    if (!onSort) return;
-    const newDirection =
-      sortColumn === columnKey && sortDirection === 'asc' ? 'desc' : 'asc';
-    onSort(columnKey, newDirection);
-  };
+export const Table = ({
+  className,
+  rows = defaultRows,
+  total = 50,
+  showColumn1 = true,
+  showColumn2 = true,
+  showColumn3 = true,
+  showColumn4 = true,
+  showColumn5 = true,
+  showColumn6 = true,
+}: TableProps) => {
+  const visibleColumns = [
+    showColumn1,
+    showColumn2,
+    showColumn3,
+    showColumn4,
+    showColumn5,
+    showColumn6,
+  ].filter(Boolean).length;
 
   return (
-    <div className="storybook-table-wrapper">
-      <table className="storybook-table">
-        {caption && (
-          <caption className="storybook-table__caption">{caption}</caption>
-        )}
-        <thead className="storybook-table__head">
-          <tr>
-            {showCheckbox && (
-              <th className="storybook-table__cell storybook-table__cell--header storybook-table__cell--checkbox">
-                <input
-                  type="checkbox"
-                  checked={allSelected}
-                  onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="storybook-table__checkbox"
-                  ref={(input) => {
-                    if (input) input.indeterminate = someSelected;
-                  }}
-                />
-              </th>
-            )}
-            {columns.map((column) => (
-              <th
-                key={column.key}
-                scope="col"
-                className={[
-                  'storybook-table__cell',
-                  'storybook-table__cell--header',
-                  `storybook-table__cell--${column.align ?? 'left'}`,
-                  column.sortable ? 'storybook-table__cell--sortable' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                style={{ width: resolveSizeValue(column.width) }}
-                onClick={
-                  column.sortable && onSort
-                    ? () => handleSort(column.key)
-                    : undefined
-                }
+    <div className={joinClass('storybook-table-v2', className)} data-node-id="456:33065">
+      <div className="storybook-table-v2__content" data-node-id="453:32894">
+        <div className="storybook-table-v2__column storybook-table-v2__column--select">
+          <div className="storybook-table-v2__header" aria-hidden />
+          {rows.map((row, rowIndex) => (
+            <div
+              key={`${row.id}-select`}
+              className={joinClass(
+                'storybook-table-v2__cell',
+                rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+                'storybook-table-v2__cell--center',
+              )}
+            >
+              <input
+                type="checkbox"
+                checked={row.selected}
+                readOnly
+                aria-label={`Selecionar linha ${rowIndex + 1}`}
+                className="storybook-table-v2__checkbox"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="storybook-table-v2__column">
+          <div className="storybook-table-v2__header">Status</div>
+          {rows.map((row, rowIndex) => (
+            <div
+              key={`${row.id}-status`}
+              className={joinClass(
+                'storybook-table-v2__cell',
+                rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+              )}
+            >
+              <span
+                className={joinClass(
+                  'storybook-table-v2__tag',
+                  row.status.tone === 'success'
+                    ? 'storybook-table-v2__tag--success'
+                    : 'storybook-table-v2__tag--info',
+                )}
               >
-                <span className="storybook-table__header-content">
-                  {column.header}
-                  {column.sortable && sortColumn === column.key && (
-                    <span className="storybook-table__sort-indicator">
-                      {sortDirection === 'asc' ? '↑' : '↓'}
-                    </span>
-                  )}
-                </span>
-              </th>
+                {row.status.label}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="storybook-table-v2__column">
+          <div className="storybook-table-v2__header">Client</div>
+          {rows.map((row, rowIndex) => (
+            <div
+              key={`${row.id}-client`}
+              className={joinClass(
+                'storybook-table-v2__cell',
+                rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+                'storybook-table-v2__cell--with-icon',
+              )}
+            >
+              <i className="fa-solid fa-user storybook-table-v2__leading-icon" aria-hidden />
+              <div className="storybook-table-v2__stack">
+                <p className="storybook-table-v2__title">{row.client.name}</p>
+                <p className="storybook-table-v2__subtitle">{row.client.document}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {showColumn1 && (
+          <div className="storybook-table-v2__column">
+            <div className="storybook-table-v2__header storybook-table-v2__header--right">
+              Number
+            </div>
+            {rows.map((row, rowIndex) => (
+              <div
+                key={`${row.id}-number`}
+                className={joinClass(
+                  'storybook-table-v2__cell',
+                  rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+                  'storybook-table-v2__cell--right',
+                )}
+              >
+                <span className="storybook-table-v2__text">{row.number}</span>
+              </div>
             ))}
-            {showActions && (
-              <th className="storybook-table__cell storybook-table__cell--header storybook-table__cell--actions">
-                <span className="storybook-table__header-content">Ações</span>
-              </th>
-            )}
-          </tr>
-        </thead>
-        <tbody className="storybook-table__body">
-          {isEmpty ? (
-            <tr className="storybook-table__row storybook-table__row--empty">
-              <td
-                className="storybook-table__cell"
-                colSpan={
-                  columns.length + (showCheckbox ? 1 : 0) + (showActions ? 1 : 0)
-                }
-              >
-                {emptyMessage}
-              </td>
-            </tr>
-          ) : (
-            rows.map((row, index) => {
-              const isSelected = selectedRows.has(row.id);
-              return (
-                <tr
-                  key={row.id}
-                  className={[
-                    'storybook-table__row',
-                    isSelected ? 'storybook-table__row--selected' : '',
-                    row.highlighted ? 'storybook-table__row--highlighted' : '',
-                    row.disabled ? 'storybook-table__row--disabled' : '',
-                    onRowClick ? 'storybook-table__row--clickable' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  onClick={
-                    row.disabled
-                      ? undefined
-                      : onRowClick
-                        ? () => onRowClick(row, index)
-                        : undefined
-                  }
-                >
-                  {showCheckbox && (
-                    <td className="storybook-table__cell storybook-table__cell--checkbox">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={(e) => handleSelectRow(row.id, e.target.checked)}
-                        onClick={(e) => e.stopPropagation()}
-                        disabled={row.disabled}
-                        className="storybook-table__checkbox"
-                      />
-                    </td>
-                  )}
-                  {columns.map((column) => (
-                    <td
-                      key={`${row.id}-${column.key}`}
-                      className={[
-                        'storybook-table__cell',
-                        `storybook-table__cell--${column.align ?? 'left'}`,
-                      ]
-                        .filter(Boolean)
-                        .join(' ')}
-                    >
-                      {column.accessor
-                        ? column.accessor(row.data)
-                        : (row.data as any)[column.key]}
-                    </td>
-                  ))}
-                  {showActions && (
-                    <td className="storybook-table__cell storybook-table__cell--actions">
-                      <button
-                        className="storybook-table__action-button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // Handle actions
-                        }}
-                        disabled={row.disabled}
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle cx="8" cy="3" r="1.5" fill="currentColor" />
-                          <circle cx="8" cy="8" r="1.5" fill="currentColor" />
-                          <circle cx="8" cy="13" r="1.5" fill="currentColor" />
-                        </svg>
-                      </button>
-                    </td>
-                  )}
-                </tr>
-              );
-            })
-          )}
-        </tbody>
-        {footer && (
-          <tfoot className="storybook-table__foot">
-            <tr>
-              <td
-                className="storybook-table__cell storybook-table__cell--footer"
-                colSpan={
-                  columns.length + (showCheckbox ? 1 : 0) + (showActions ? 1 : 0)
-                }
-              >
-                {footer}
-              </td>
-            </tr>
-          </tfoot>
+          </div>
         )}
-      </table>
+
+        {showColumn2 && (
+          <div className="storybook-table-v2__column">
+            <div className="storybook-table-v2__header">Product</div>
+            {rows.map((row, rowIndex) => (
+              <div
+                key={`${row.id}-product`}
+                className={joinClass(
+                  'storybook-table-v2__cell',
+                  rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+                  'storybook-table-v2__cell--with-icon',
+                )}
+              >
+                <i className="fa-solid fa-car storybook-table-v2__leading-icon" aria-hidden />
+                <div className="storybook-table-v2__stack">
+                  <p className="storybook-table-v2__title">{row.product.name}</p>
+                  <p className="storybook-table-v2__subtitle">{row.product.subtitle}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {showColumn3 && (
+          <div className="storybook-table-v2__column">
+            <div className="storybook-table-v2__header">Header</div>
+            {rows.map((row, rowIndex) => (
+              <div
+                key={`${row.id}-header1`}
+                className={joinClass(
+                  'storybook-table-v2__cell',
+                  rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+                )}
+              >
+                <span className="storybook-table-v2__text">{row.header1}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {showColumn4 && (
+          <div className="storybook-table-v2__column">
+            <div className="storybook-table-v2__header">Header</div>
+            {rows.map((row, rowIndex) => (
+              <div
+                key={`${row.id}-header2`}
+                className={joinClass(
+                  'storybook-table-v2__cell',
+                  rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+                )}
+              >
+                <span className="storybook-table-v2__text">{row.header2}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {showColumn5 && (
+          <div className="storybook-table-v2__column">
+            <div className="storybook-table-v2__header">Header</div>
+            {rows.map((row, rowIndex) => (
+              <div
+                key={`${row.id}-header3`}
+                className={joinClass(
+                  'storybook-table-v2__cell',
+                  rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+                )}
+              >
+                <span className="storybook-table-v2__text">{row.header3}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {showColumn6 && (
+          <div className="storybook-table-v2__column storybook-table-v2__column--options">
+            <div className="storybook-table-v2__header" aria-hidden />
+            {rows.map((row, rowIndex) => (
+              <div
+                key={`${row.id}-options`}
+                className={joinClass(
+                  'storybook-table-v2__cell',
+                  rowIndex % 2 === 1 && 'storybook-table-v2__cell--alt',
+                  'storybook-table-v2__cell--center',
+                )}
+              >
+                <button type="button" className="storybook-table-v2__icon-button" aria-label="Opcoes">
+                  <i className="fa-solid fa-ellipsis" aria-hidden />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <footer className="storybook-table-v2__footer">
+        <p className="storybook-table-v2__footer-text" style={{ minWidth: `${Math.max(1, visibleColumns)}ch` }}>
+          <span>Total: </span>
+          <strong>{total}</strong>
+        </p>
+      </footer>
     </div>
   );
 };

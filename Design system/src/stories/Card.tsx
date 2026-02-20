@@ -2,56 +2,59 @@ import React from 'react';
 
 import './card.css';
 
-export interface CardAction {
-  label: string;
-  href?: string;
-  variant?: 'primary' | 'secondary';
-}
-
 export interface CardProps {
-  title: string;
-  description: string;
-  subtitle?: string;
+  title?: string;
+  tagLabel?: string;
+  content?: React.ReactNode;
+  variation?: 'multiple-actions' | 'simple-action';
   icon?: React.ReactNode;
-  footer?: React.ReactNode;
-  actions?: CardAction[];
+  onActionClick?: () => void;
+  onDetailsClick?: () => void;
 }
 
 export const Card = ({
-  title,
-  description,
-  subtitle,
+  title = 'Titulo',
+  tagLabel = 'Nome da tag',
+  content = 'Insira o conteudo aqui',
+  variation = 'multiple-actions',
   icon,
-  footer,
-  actions = [],
+  onActionClick,
+  onDetailsClick,
 }: CardProps) => {
+  const isSimpleAction = variation === 'simple-action';
+
   return (
-    <article className="storybook-card">
-      <header className="storybook-card__header">
-        {icon ? <div className="storybook-card__icon">{icon}</div> : null}
-        <div>
-          <h3 className="storybook-card__title">{title}</h3>
-          {subtitle ? <p className="storybook-card__subtitle">{subtitle}</p> : null}
+    <article className="storybook-card-v2">
+      <header className="storybook-card-v2__header">
+        <div className="storybook-card-v2__title-wrap">
+          <div className="storybook-card-v2__title-icon" aria-hidden="true">
+            {icon || <i className="fa-light fa-file-lines" />}
+          </div>
+          <h3 className="storybook-card-v2__title">{title}</h3>
+        </div>
+        <div className="storybook-card-v2__actions-wrap">
+          <span className="storybook-card-v2__tag">{tagLabel}</span>
+          {isSimpleAction ? (
+            <button
+              type="button"
+              className="storybook-card-v2__details"
+              onClick={onDetailsClick}
+            >
+              Detalhes
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="storybook-card-v2__action-button"
+              aria-label="Mais acoes"
+              onClick={onActionClick}
+            >
+              <span aria-hidden="true">⋮</span>
+            </button>
+          )}
         </div>
       </header>
-      <div className="storybook-card__body">{description}</div>
-      {actions.length ? (
-        <div className="storybook-card__actions">
-          {actions.map((action) => (
-            <a
-              key={action.label}
-              className={[
-                'storybook-card__link',
-                action.variant === 'secondary' ? 'secondary' : '',
-              ].join(' ')}
-              href={action.href ?? '#'}
-            >
-              {action.label}
-            </a>
-          ))}
-        </div>
-      ) : null}
-      {footer ? <div className="storybook-card__footer">{footer}</div> : null}
+      <div className="storybook-card-v2__content">{content}</div>
     </article>
   );
 };

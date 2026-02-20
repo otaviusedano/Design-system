@@ -13,12 +13,6 @@ const meta = {
     },
     layout: 'centered',
   },
-  argTypes: {
-    size: {
-      control: 'select',
-      options: ['small', 'medium', 'large'],
-    },
-  },
 } satisfies Meta<typeof QRCode>;
 
 export default meta;
@@ -26,7 +20,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    value: 'https://topaz.example.com',
-    size: 'medium',
+    alt: 'QR Code Topaz',
   },
 };
